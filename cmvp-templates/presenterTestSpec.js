@@ -1,8 +1,8 @@
 describe("<%= cmvpName %>Presenter", function () {
     'use strict';
     var <%= cmvpName %>Presenter = app.getPresenter('presenters/<%= cmvpName %>Presenter');
-    var PresenterHelper = testHelper.get("Presenter");
-    var ServiceHelper = testHelper.get("Service");
+    var PresenterHelper = test.getHelper("Presenter");
+    var ServiceHelper = test.getHelper("Service");
 
     var sut;
     beforeEach(function () {

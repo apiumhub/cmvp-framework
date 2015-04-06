@@ -1,7 +1,7 @@
 describe("<%= cmvpName %>View", function () {
     'use strict';
     var <%= cmvpName %>View = app.getView('views/<%= cmvpName %>View');
-    var ViewHelper = testHelper.get("View");
+    var ViewHelper = test.getHelper("View");
 
     var sut;
     beforeEach(function () {
