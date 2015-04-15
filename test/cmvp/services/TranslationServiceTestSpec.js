@@ -9,11 +9,12 @@ describe("TranslationService", function () {
     var LanguageSelectorModel = app.getModel('models/LanguageSelectorModel');
     var sinon = app.getService("sinon");
     var Q = app.getFunction("q");
+    var $scope = test.getHelper('Scope').getStub();
     var promise = test.getHelper("Promise");
 
     describe("translate", function () {
         function exerciseTranslationService(onLoad) {
-            var instance = new TranslationService(i18next, LanguageSelectorModel.newInstance());
+            var instance = new TranslationService(i18next, $scope);
             instance.initLanguage('test', undefined, 'base/locales/__ns__/__lng__.json')
                 .then(onLoad)
                 .done();
@@ -76,7 +77,7 @@ describe("TranslationService", function () {
         it("should load language from server", function (done) {
             var expected = "adfd";
             var langModel = exerciseCreateLangModel(false, Q(expected));
-            var sut = TranslationService.getInstance(langModel, {
+            var sut = TranslationService.getInstance($scope, langModel, {
                 init: function(config){
                     expect(config.lng).toBe(expected);
                     done();
@@ -88,15 +89,15 @@ describe("TranslationService", function () {
             var expected = "adfd";
             var langModel = exerciseCreateLangModel(false, promise.fake(expected));
             var i18n = {init: sinon.spy()};
-            TranslationService.getInstance(langModel, i18n);
-            TranslationService.getInstance(langModel, i18n);
+            TranslationService.getInstance($scope, langModel, i18n);
+            TranslationService.getInstance($scope, langModel, i18n);
             expect(i18n.init.callCount).toBe(1);
         });
 
         it("should load language from local and reload if lang in server is different", function(){
             var langModel = exerciseCreateLangModel("b", promise.fake("a"));
             var i18n = {init: sinon.spy()};
-            var sut = TranslationService.getInstance(langModel, i18n);
+            var sut = TranslationService.getInstance($scope, langModel, i18n);
             expect(i18n.init.callCount).toBe(2);
         });
 

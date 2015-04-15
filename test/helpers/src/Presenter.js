@@ -11,8 +11,8 @@ test.registerHelper("Presenter", function() {
                     it("should define events on show", function () {
                         var view = {event: {}, fn: {}};
                         getSut().show(view, {});
-                        var actual = Object.keys(view.event);
-                        expect(actual).toEqual(expected);
+                        var actual = Object.keys(view.event).sort();
+                        expect(actual).toEqual(expected.sort());
                     });
                 });
             });
