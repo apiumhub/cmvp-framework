@@ -96,7 +96,6 @@ describe('CookieService', function () {
             var cookieInvalidKeyProvider = [null, 1, false, {}, []];
             cookieInvalidKeyProvider.forEach(function (key, i) {
                 it('should throw an error.' + i, function () {
-                    var value = 'dummyValue';
                     var actual = sut.get.bind(sut, key);
                     expect(actual).toThrow();
                 });

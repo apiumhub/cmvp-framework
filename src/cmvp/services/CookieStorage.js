@@ -55,8 +55,8 @@ app.registerService(function (container) {
     };
 
     CookieStorage.prototype._ensureIsValid = function (key, value) {
-        if (_.isFunction(value) || typeof key !== 'string') {
-            throw new Error("we can not store functions");
+        if (_.isFunction(value) || typeof key !== 'string' || key.length === 0) {
+            throw new Error("invalid key value");
         }
     };
 
