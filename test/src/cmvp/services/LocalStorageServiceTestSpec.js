@@ -1,7 +1,7 @@
 /**
  * Created by jose on 4/03/15.
  */
-describe("LocalStorageService", function () {
+describe("cmvp/LocalStorageService", function () {
     var LocalStorageService = app.getService("cmvp/services/LocalStorageService");
 
     var sut;

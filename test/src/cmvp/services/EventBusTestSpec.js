@@ -2,7 +2,7 @@
  * Created by kevin on 10/24/14.
  */
 
-describe("EventBus", function () {
+describe("cmvp/EventBus", function () {
     var EventBus = app.getService('cmvp/services/EventBus').getInstance();
 
     it("should respond to events in a subscribed channel", function () {

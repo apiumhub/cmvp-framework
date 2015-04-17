@@ -1,7 +1,7 @@
 /**
  * Created by jose on 5/03/15.
  */
-describe("KeyboardService", function () {
+describe("cmvp/KeyboardService", function () {
     "use strict";
     var KeyboardService = app.getService("cmvp/services/KeyboardService");
     var sinon = app.getService("sinon");

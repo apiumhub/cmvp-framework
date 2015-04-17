@@ -1,7 +1,7 @@
 /**
  * Created by jose on 13/04/15.
  */
-describe('GuestToHostChannel/GuestSenderChannel', function () {
+describe('cmvp/GuestToHostChannel/GuestSenderChannel', function () {
     "use strict";
 
     var GuestSenderChannel = app.getService('cmvp/services/GuestToHostChannel/GuestSenderChannel');

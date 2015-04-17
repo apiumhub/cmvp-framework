@@ -1,7 +1,7 @@
 /**
  * Created by kien.nguyen on 15/04/15.
  */
-describe('CookieService', function () {
+describe('cmvp/CookieService', function () {
     var CookieStorage = app.getService('cmvp/services/CookieStorage');
     var sut;
     beforeEach(function () {
