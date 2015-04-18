@@ -8,8 +8,7 @@ test.registerHelper("View", function() {
 
     return {
         exerciseCreate : function (View) {
-            var instance = View.newInstance($scope)
-                ;
+            var instance = View.newInstance($scope);
             expect(instance).toBeDefined();
             return instance;
         },
@@ -24,6 +23,21 @@ test.registerHelper("View", function() {
                     });
                 });
             });
+        },
+        testSetter: function (getSut, viewMethod, viewVariable) {
+            describe(viewMethod, function () {
+                describe('when receive a ' + viewVariable, function () {
+                    it('should set the variable to the view', function () {
+                        var sut = getSut();
+                        var expected = 'anything';
+                        sut[viewMethod](expected);
+
+                        var actual = sut.data[viewVariable];
+
+                        expect(actual).toEqual(expected);
+                    });
+                });
+            })
         }
     };
 });
