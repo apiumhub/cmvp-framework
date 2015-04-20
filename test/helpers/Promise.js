@@ -40,6 +40,7 @@ test.registerHelper("Promise", function() {
     };
 
     Fake.prototype.fail = function (fError) {
+        if (!this.error) { return this; }
         try {
             this.error = fError(this.error);
         } catch (e) {
