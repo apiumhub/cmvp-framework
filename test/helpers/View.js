@@ -38,6 +38,17 @@ test.registerHelper("View", function() {
                     });
                 });
             })
+        },
+        testShowMethodsAreDefined: function (getSut) {
+            var methodProvider = ["show", "showError"];
+            methodProvider.forEach(function (method) {
+                describe(method, function () {
+                    it("should be the same as the base view", function () {
+                        var sut = getSut();
+                        expect(sut[method]).toBeDefined();
+                    });
+                });
+            });
         }
     };
 });
