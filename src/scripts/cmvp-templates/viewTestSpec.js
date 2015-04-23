@@ -8,5 +8,7 @@ describe("<%= cmvpName %>View", function () {
         sut =  ViewHelper.exerciseCreate(<%= cmvpName %>View);
     });
 
-    ViewHelper.testShowCallsPresenterShow(function () { return sut; });
+    var getSut = function () { return sut; };
+    ViewHelper.testShowCallsPresenterShow(getSut);
+    ViewHelper.testShowMethodsAreDefined(getSut);
 });

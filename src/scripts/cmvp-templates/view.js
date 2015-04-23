@@ -9,6 +9,7 @@ app.registerView(function (container) {
     }
 
     <%= cmvpName %>View.prototype.show = BaseView.methods.show;
+    <%= cmvpName %>View.prototype.showError = BaseView.methods.showError;
 
     <%= cmvpName %>View.newInstance = function ($scope, presenter, model) {
         var view = BaseView.newInstance($scope, presenter, model, {
