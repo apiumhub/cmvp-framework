@@ -27,7 +27,12 @@ app.registerService(function (container) {
             return undefined;
         }
         var value = cookieStrings[0].split("=")[1];
-        return JSON.parse(value);
+        try {
+            return JSON.parse(value);
+        } catch (e) {
+            console.log(e);
+            return value;
+        }
     };
 
     CookieStorage.prototype.clear = function () {

@@ -16,15 +16,20 @@ app.registerService(function (container) {
         var value;
         try {
             value = JSON.parse(json);
-        } catch (e) {
-            console.log(e);
-            this.error = e;
+        } catch (e) { // it does not require to be a JSON, never assume that we are the owners of the localStorage
+            console.error(e);
+            value = json;
         }
         return value;
     };
 
     LocalStorageService.prototype.set = function (key, value) {
-        window.localStorage[namespace + key] = JSON.stringify(value);
+        try {
+            window.localStorage[namespace + key] = JSON.stringify(value);
+        } catch (e) {
+            console.error(e);
+            window.localStorage[namespace + key] = value;
+        }
     };
 
     LocalStorageService.newInstance = function () {
