@@ -22,6 +22,7 @@ app.registerService(function (container) {
             url: path,
             headers: this.headerProvider.getHeader()
         };
+
         if (data) {
             params.data = (typeof data == 'string' || data instanceof String) ? data : JSON.stringify(data);
         }
