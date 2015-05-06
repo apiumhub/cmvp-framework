@@ -4,8 +4,10 @@ describe("<%= cmvpName %>Presenter", function () {
     var PresenterHelper = test.getHelper("Presenter");
     var ServiceHelper = test.getHelper("Service");
 
-    var sut;
+    var sut, view, model;
     beforeEach(function () {
+        view = {data: {}};
+        model = {};
         sut = ServiceHelper.exerciseCreate(<%= cmvpName %>Presenter);
     });
 
@@ -14,13 +16,7 @@ describe("<%= cmvpName %>Presenter", function () {
     describe("handleOnLoad", function () {
         describe("always", function () {
             it("should call view and/or method X", function () {
-                // arrange
-                var view = {}, model = {};
-
-                // act
                 sut.handleOnLoad(view, model);
-
-                // assert
                 expect(true).toBe(true);
             });
         });
