@@ -30,7 +30,7 @@ app.registerService(function (container) {
         try {
             return JSON.parse(value);
         } catch (e) {
-            console.error(e);
+            //console.error(e);
             return value;
         }
     };
