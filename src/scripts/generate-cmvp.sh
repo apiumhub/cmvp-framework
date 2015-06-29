@@ -31,15 +31,15 @@ update_main() {
 validate_name $1
 
 declare -A FILES=(
-    ["$TEMPLATES_PATH/controller.js"]="$1Controller.js"
-    ["$TEMPLATES_PATH/model.js"]="$1Model.js"
-    ["$TEMPLATES_PATH/view.js"]="$1View.js"
-    ["$TEMPLATES_PATH/presenter.js"]="$1Presenter.js"
+    ["$TEMPLATES_PATH/controller.js.tmpl"]="$1Controller.js"
+    ["$TEMPLATES_PATH/model.js.tmpl"]="$1Model.js"
+    ["$TEMPLATES_PATH/view.js.tmpl"]="$1View.js"
+    ["$TEMPLATES_PATH/presenter.js.tmpl"]="$1Presenter.js"
 
-    ["$TEMPLATES_PATH/controllerTestSpec.js"]="$1ControllerTestSpec.js"
-    ["$TEMPLATES_PATH/modelTestSpec.js"]="$1ModelTestSpec.js"
-    ["$TEMPLATES_PATH/viewTestSpec.js"]="$1ViewTestSpec.js"
-    ["$TEMPLATES_PATH/presenterTestSpec.js"]="$1PresenterTestSpec.js"
+    ["$TEMPLATES_PATH/controllerTestSpec.js.tmpl"]="$1ControllerTestSpec.js"
+    ["$TEMPLATES_PATH/modelTestSpec.js.tmpl"]="$1ModelTestSpec.js"
+    ["$TEMPLATES_PATH/viewTestSpec.js.tmpl"]="$1ViewTestSpec.js"
+    ["$TEMPLATES_PATH/presenterTestSpec.js.tmpl"]="$1PresenterTestSpec.js"
 )
 
 for KEY in "${!FILES[@]}"
