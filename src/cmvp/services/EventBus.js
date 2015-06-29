@@ -1,7 +1,7 @@
 /**
  * Created by kevin on 10/24/14.
  */
-app.register(function (require) {
+define(function (require) {
     var postal = require('postal');
 
     function EventBus() {
