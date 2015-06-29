@@ -19,9 +19,12 @@ define(function (require) {
             dataType: "json",
             contentType: "application/json",
             type: method,
-            url: path,
-            headers: this.headerProvider.getHeader()
+            url: path
         };
+
+        if (this.headerProvider) {
+            params.headers = this.headerProvider.getHeader();
+        }
 
         if (data) {
             params.data = (typeof data == 'string' || data instanceof String) ? data : JSON.stringify(data);
