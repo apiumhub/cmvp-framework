@@ -13,8 +13,6 @@ module.exports = function(config) {
             {pattern: 'src/ApplicationFactory.js', included: false},
             {pattern: 'src/main.js', included: false},
             {pattern: 'src/cmvp/**/*.js', included: false},
-            {pattern: 'test/helpers.js', included: true},
-            {pattern: 'test/helpers/**/*.js', included: true},
             {pattern: 'test/src/**/*.js', included: false},
 
         /** Load Tests **/

@@ -2,7 +2,7 @@ define(function (require) {
 	describe("<%= cmvpName %>View", function () {
 		'use strict';
 		var <%= cmvpName %>View = require('views/<%= cmvpName %>View');
-		var ViewHelper = test.getHelper("View");
+		var ViewHelper = require("test-helpers/View");
 
 		var sut;
 		beforeEach(function () {

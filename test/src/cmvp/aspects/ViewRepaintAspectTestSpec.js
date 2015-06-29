@@ -1,8 +1,12 @@
 /**
  * Created by kevin on 10/27/14.
  */
+define (function (require) {
+    
+});
+
 describe('cmvp/ViewRepaintAspect', function () {
-    var ViewRepaintAspect = app.getService('cmvp/aspects/ViewRepaintAspect');
+    var ViewRepaintAspect = require('cmvp/aspects/ViewRepaintAspect');
 
     function exerciseCreateView($applyFunction) {
         return {$scope: {$apply: $applyFunction}};

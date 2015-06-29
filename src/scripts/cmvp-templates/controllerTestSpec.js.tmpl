@@ -2,7 +2,7 @@ define(function (require) {
 	describe('<%= cmvpName %>Controller', function () {
 		"use strict";
 		var <%= cmvpName %>Controller = require('controllers/<%= cmvpName %>Controller');
-		var ControllerHelper = test.getHelper('Controller');
+		var ControllerHelper = require('test-helpers/Controller');
 		ControllerHelper.testCallsViewShow(<%= cmvpName %>Controller);
 	});
 }

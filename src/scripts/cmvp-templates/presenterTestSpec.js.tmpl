@@ -3,8 +3,8 @@ define(function (require) {
 	describe("<%= cmvpName %>Presenter", function () {
 		'use strict';
 		var <%= cmvpName %>Presenter = require('presenters/<%= cmvpName %>Presenter');
-		var PresenterHelper = test.getHelper("Presenter");
-		var ServiceHelper = test.getHelper("Service");
+		var PresenterHelper = require("test-helpers/Presenter");
+		var ServiceHelper = require("test-helpers/Service");
 
 		var sut, view, model;
 		beforeEach(function () {
