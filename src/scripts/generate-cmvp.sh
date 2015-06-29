@@ -2,7 +2,7 @@
 
 set -e
 
-cd "$(dirname $(readlink -f $0))/../../.."
+TEMPLATES_PATH="$(dirname $(readlink -f $0))/cmvp-templates/"
 
 validate_name() {
     local name=$1
@@ -25,25 +25,21 @@ make_file_from_template() {
 }
 
 update_main() {
-    local SRCS="'controllers/$1Controller', 'views/$1View', 'presenters/$1Presenter', 'models/$1Model',"
-    if ! cat app/main.js | grep "$SRCS"; then
-        sed "s%// CMVP%// CMVP\n\t\t\t$SRCS%g" -i app/main.js
-        echo "added line to app/main.js: $SRCS"
-    fi
+    echo "PLEASE, don't forget to update the dependency file"
 }
 
 validate_name $1
 
 declare -A FILES=(
-    ["framework/src/scripts/cmvp-templates/controller.js"]="app/controllers/$1Controller.js"
-    ["framework/src/scripts/cmvp-templates/model.js"]="app/models/$1Model.js"
-    ["framework/src/scripts/cmvp-templates/view.js"]="app/views/$1View.js"
-    ["framework/src/scripts/cmvp-templates/presenter.js"]="app/presenters/$1Presenter.js"
+    ["$TEMPLATES_PATH/controller.js"]="$1Controller.js"
+    ["$TEMPLATES_PATH/model.js"]="$1Model.js"
+    ["$TEMPLATES_PATH/view.js"]="$1View.js"
+    ["$TEMPLATES_PATH/presenter.js"]="$1Presenter.js"
 
-    ["framework/src/scripts/cmvp-templates/controllerTestSpec.js"]="test/src/controllers/$1ControllerTestSpec.js"
-    ["framework/src/scripts/cmvp-templates/modelTestSpec.js"]="test/src/models/$1ModelTestSpec.js"
-    ["framework/src/scripts/cmvp-templates/viewTestSpec.js"]="test/src/views/$1ViewTestSpec.js"
-    ["framework/src/scripts/cmvp-templates/presenterTestSpec.js"]="test/src/presenters/$1PresenterTestSpec.js"
+    ["$TEMPLATES_PATH/controllerTestSpec.js"]="$1ControllerTestSpec.js"
+    ["$TEMPLATES_PATH/modelTestSpec.js"]="$1ModelTestSpec.js"
+    ["$TEMPLATES_PATH/viewTestSpec.js"]="$1ViewTestSpec.js"
+    ["$TEMPLATES_PATH/presenterTestSpec.js"]="$1PresenterTestSpec.js"
 )
 
 for KEY in "${!FILES[@]}"
