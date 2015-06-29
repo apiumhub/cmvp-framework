@@ -1,7 +1,7 @@
 /**
  * Created by jose on 31/03/15.
  */
-app.registerController(function (container) {
+define(function (require) {
     "use strict";
     var BaseController = {};
     BaseController.constructor = function (self, $scope, View) {
@@ -10,7 +10,7 @@ app.registerController(function (container) {
     };
 
     BaseController.makeClass = function (cmvpName) {
-        var View = container.getView('views/' + cmvpName + 'View');
+        var View = require('views/' + cmvpName + 'View');
         return function ($scope) {
             BaseController.constructor(this, $scope, View);
         };

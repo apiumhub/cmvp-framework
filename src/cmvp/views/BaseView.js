@@ -1,10 +1,10 @@
 /**
  * Created by jose on 31/03/15.
  */
-app.registerView(function (container) {
+define(function (require) {
     "use strict";
 
-    var ViewRepaintAspect = container.getService('cmvp/aspects/ViewRepaintAspect');
+    var ViewRepaintAspect = require('cmvp/aspects/ViewRepaintAspect');
 
     var BaseView = {};
 

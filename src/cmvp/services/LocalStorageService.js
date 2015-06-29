@@ -1,7 +1,7 @@
 /**
  * Created by jose on 4/03/15.
  */
-app.registerService(function (container) {
+define(function (require) {
     "use strict";
     function LocalStorageService() {
         this.error = undefined;

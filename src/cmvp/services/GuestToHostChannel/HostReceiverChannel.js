@@ -1,7 +1,7 @@
 /**
  * Created by jose on 13/04/15.
  */
-app.registerService(function (container) {
+define(function (require) {
     "use strict";
 
     function HostReceiverChannel (box) {

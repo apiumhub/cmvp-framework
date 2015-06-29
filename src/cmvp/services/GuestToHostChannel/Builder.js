@@ -1,12 +1,12 @@
 /**
  * Created by jose on 13/04/15.
  */
-app.registerService(function (container) {
+define(function (require) {
     "use strict";
 
-    var Box = container.getService("cmvp/services/GuestToHostChannel/Box");
-    var HostReceiverChannel = container.getService("cmvp/services/GuestToHostChannel/HostReceiverChannel");
-    var GuestSenderChannel = container.getService("cmvp/services/GuestToHostChannel/GuestSenderChannel");
+    var Box = require("cmvp/services/GuestToHostChannel/Box");
+    var HostReceiverChannel = require("cmvp/services/GuestToHostChannel/HostReceiverChannel");
+    var GuestSenderChannel = require("cmvp/services/GuestToHostChannel/GuestSenderChannel");
 
     function GuestToHostChannelBuilder (di) {
         this.box = di.box;

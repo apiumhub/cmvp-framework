@@ -2,7 +2,7 @@
  * Created by kien.nguyen on 15/04/15.
  */
 
-app.registerService(function (container) {
+define(function (require) {
     function CookieStorage () {
 
     }
