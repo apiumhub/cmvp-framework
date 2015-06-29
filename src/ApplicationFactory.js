@@ -24,7 +24,145 @@
  *                  );
  **/
 
-(function (jsScope) {
+;(function (jsScope) {
+
+    jsScope.ApplicationFactory = {
+        newApplication: function (name, impl) {
+            // ensure that the configuration is valid before creating the application.
+            if (impl == null) {
+                throw new Error("impl must not be null.");
+            }
+            ensureFunction(impl.registerObject, "registerObject");
+            ensureFunction(impl.getObject, "getObject");
+
+            impl.name = name;
+            impl = applySetsTo(impl);
+            impl = applyGetsTo(impl);
+
+            impl.isComposedWith = function (type) {
+                return impl.type.indexOf(type) != -1;
+            };
+
+            impl.composedWith = function (anotherImpl) {
+                var x = impl.type + "|" + anotherImpl.type;
+                var newImpl = {type: x};
+
+                impl.type = x;
+                anotherImpl.type = x;
+
+                newImpl.registerObject = function (cfg, obj) {
+                    impl.registerObject(cfg, obj);
+                    anotherImpl.registerObject(cfg, obj);
+                };
+
+                newImpl.getObject = function (name) {
+                    var a = impl.getObject(name);
+                    var b = anotherImpl.getObject(name);
+                    return a || b;
+                };
+
+                newImpl.initialize = function () {
+                    impl.initialize();
+                    anotherImpl.initialize();
+                };
+
+                return ApplicationFactory.newApplication(impl.name + " with " + anotherImpl.name + " ", newImpl);
+            };
+
+            return impl;
+        },
+
+        newRequireApplication: function (name, config) {
+            ensureFunction(jsScope.define);
+            ensureFunction(jsScope.require);
+
+            if (config) {
+                jsScope.requirejs.config(config);
+            }
+            var impl = {type: 'require'};
+            impl.registerObject = function (configuration, factory) {
+                var cfg = configuration || {};
+                if (cfg.name != null && cfg.dependencies != null) {
+                    jsScope.define(cfg.name, cfg.dependencies, factory);
+                } else if (cfg.name != null && cfg.dependencies == null) {
+                    jsScope.define(cfg.name, [], function (require) {
+                        return factory.bind(require, applyGetsTo({
+                            require: require,
+                            getObject: require,
+                            registerObject: errFun("Parameter is a read-only context")
+                        }));
+                    });
+                } else {
+                    jsScope.define(function (require) {
+                        return factory.bind(require, applyGetsTo({
+                            require: require,
+                            getObject: require,
+                            registerObject: errFun("Parameter is a read-only context")
+                        }));
+                    });
+                }
+            };
+
+            impl.getObject = function (name) {
+                try {
+                    return jsScope.require(name);
+                } catch (e) {
+                    console.log(e);
+                    return null;
+                }
+            };
+
+            impl.initialize = function () {
+            };
+
+            return jsScope.ApplicationFactory.newApplication(name, impl);
+        },
+
+        newAngularApplication: function (name, modules, config) {
+            if (jsScope.angular == null) {
+                throw new Error("AngularJS is not loaded into the current scope");
+            }
+
+            var angularApp = jsScope.angular.module(name, modules);
+            angularApp.config(config);
+
+            var impl = {type: 'angular'};
+
+            impl.registerObject = function (configuration, factory) {
+                return null;
+            };
+
+            impl.getObject = function (objName) {
+                return null; // do not use angularjs to detect dependencies
+            };
+
+            impl.initialize = function () {
+                if (impl.isComposedWith("require")) {
+                    jsScope.require(["Application"], function (app) {
+                        app.manifest.src.forEach(function (value) {
+                            if (value.indexOf("Controller") != -1) {
+                                angularApp.controller(value.substring(value.lastIndexOf('/') + 1), ['$scope', '$routeParams', function ($scope, $routeParams) {
+                                    var constr = jsScope.require(value);
+                                    var constr2 = constr.bind(null, $scope, $routeParams);
+                                    var instance = new constr2();
+                                    return instance;
+                                }]);
+                            }
+                        });
+
+                        jsScope.angular.bootstrap(document, [name]);
+                    });
+                } else {
+                    jsScope.angular.bootstrap(document, [name]);
+                }
+
+
+            };
+
+            return jsScope.ApplicationFactory.newApplication(name, impl);
+        }
+    };
+
     function isFunction(func) {
         return Object.prototype.toString.call(func) == '[object Function]';
     }
@@ -81,156 +219,4 @@
         return impl;
     }
 
-    jsScope.ApplicationFactory = {
-        newApplication: function (name, impl) {
-            // ensure that the configuration is valid before creating the application.
-            if (impl == null) { throw new Error("impl must not be null."); }
-            ensureFunction(impl.registerObject, "registerObject");
-            ensureFunction(impl.getObject, "getObject");
-
-            impl.name = name;
-            impl = applySetsTo(impl);
-            impl = applyGetsTo(impl);
-
-            impl.isComposedWith = function (type) {
-                return impl.type.indexOf(type) != -1;
-            };
-
-            impl.composedWith = function (anotherImpl) {
-                var x = impl.type + "|" + anotherImpl.type;
-                var newImpl = {type: x};
-
-                impl.type = x;
-                anotherImpl.type = x;
-
-                newImpl.registerObject = function (cfg, obj) {
-                    impl.registerObject(cfg, obj);
-                    anotherImpl.registerObject(cfg, obj);
-                };
-
-                newImpl.getObject = function (name) {
-                    var a = impl.getObject(name);
-                    var b = anotherImpl.getObject(name);
-                    return a || b;
-                };
-
-                newImpl.initialize = function () {
-                    impl.initialize();
-                    anotherImpl.initialize();
-                };
-
-                return ApplicationFactory.newApplication(impl.name + " with " + anotherImpl.name + " ", newImpl);
-            };
-
-            return impl;
-        },
-
-        newRequireApplication: function (name, config) {
-            // check if we have require loaded
-            if (ensureFunction(jsScope.define) && ensureFunction(jsScope.require)) {
-                if (config) {
-                    jsScope.requirejs.config(config);
-                }
-                var impl = {type: 'require'};
-                impl.registerObject = function (configuration, factory) {
-                    var cfg = configuration || {};
-                    function decorateFactoryWithDependencies (require) {
-                        var applyParameters = {
-                            require: require,
-                            getObject: require,
-                            registerObject: errFun("Parameter is a read-only context")
-                        };
-                        var cb = factory.bind(require, applyGetsTo(applyParameters));
-                        cb.cfg = cfg;
-                        return cb;
-                    }
-                    if (cfg.name != null && cfg.dependencies != null) {
-                        factory.cfg = cfg;
-                        jsScope.define(cfg.name, cfg.dependencies, factory);
-                    } else if (cfg.name != null && cfg.dependencies == null) {
-                        jsScope.define(cfg.name, [ ], decorateFactoryWithDependencies);
-                    } else {
-                        jsScope.define(decorateFactoryWithDependencies);
-                    }
-                };
-
-                impl.getObject = function (name) {
-                    try {
-                        return jsScope.require(name);
-                    } catch (e) {
-                        console.log(e);
-                        return null;
-                    }
-                };
-
-                impl.initialize = function () {};
-
-                return jsScope.ApplicationFactory.newApplication(name, impl);
-            }
-            throw new Error("RequireJS is not loaded! (require must be injected into the provided jsScope)")
-        },
-
-        newAngularApplication: function (name, modules, config) {
-            if (jsScope.angular == null) {
-                throw new Error("AngularJS is not loaded into the current scope");
-            }
-
-            var angularApp = jsScope.angular.module(name, modules);
-            angularApp.config(config);
-
-            var impl = {type: 'angular'};
-
-            impl.registerObject = function (configuration, factory) {
-                return null;
-            };
-
-            impl.getObject = function (objName) {
-                return null; // do not use angularjs to detect dependencies
-            };
-
-            var packComponentWithAngularDependencies = function (component, dependencies) {
-                var pack = dependencies.slice(0);
-                pack.push(component);
-                return pack;
-            };
-
-            var addAngularComponent = function (componentType, path, registry) {
-                if (path.indexOf(componentType) != -1) {
-                    var component = app.getObject(path);
-                    var componentName = component.cfg.angularName ||
-                        path.substring(path.lastIndexOf('/') + 1, (path.length - componentType.length));
-                    if (component.cfg.angularDependencies) {
-                        component = packComponentWithAngularDependencies(component, component.cfg.angularDependencies);
-                    }
-                    registry(componentName, component);
-                }
-            };
-
-            var addAngularController = function (path) {
-                if (path.indexOf("Controller") != -1) {
-                    var name = path.substring(path.lastIndexOf('/') + 1);
-                    angularApp.controller(name, app.getController(path));
-                }
-            };
-
-            impl.initialize = function () {
-                if (impl.isComposedWith("require")) {
-                    jsScope.require(["Application"], function (app) {
-                        app.manifest.src.forEach(function (value) {
-                            addAngularController(value);
-                            addAngularComponent("Filter", value, angularApp.filter.bind(angularApp));
-                            addAngularComponent("Directive", value, angularApp.directive.bind(angularApp));
-                            addAngularComponent("Provider", value, angularApp.provider.bind(angularApp));
-                        });
-
-                        jsScope.angular.bootstrap(document, [name]);
-                    });
-                } else {
-                    jsScope.angular.bootstrap(document, [name]);
-                }
-            };
-
-            return jsScope.ApplicationFactory.newApplication(name, impl);
-        }
-    };
 })(window);
