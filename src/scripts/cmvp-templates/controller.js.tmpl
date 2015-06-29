@@ -1,5 +1,5 @@
-app.registerController(function (container) {
+define(function (require) {
     "use strict";
-    var BaseController = container.getController('cmvp/controllers/BaseController');
+    var BaseController = require('cmvp/controllers/BaseController');
     return BaseController.makeClass("<%= cmvpName %>");
 });

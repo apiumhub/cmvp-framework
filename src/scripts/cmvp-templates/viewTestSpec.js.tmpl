@@ -1,14 +1,16 @@
-describe("<%= cmvpName %>View", function () {
-    'use strict';
-    var <%= cmvpName %>View = app.getView('views/<%= cmvpName %>View');
-    var ViewHelper = test.getHelper("View");
+define(function (require) {
+	describe("<%= cmvpName %>View", function () {
+		'use strict';
+		var <%= cmvpName %>View = require('views/<%= cmvpName %>View');
+		var ViewHelper = test.getHelper("View");
 
-    var sut;
-    beforeEach(function () {
-        sut =  ViewHelper.exerciseCreate(<%= cmvpName %>View);
-    });
+		var sut;
+		beforeEach(function () {
+			sut =  ViewHelper.exerciseCreate(<%= cmvpName %>View);
+		});
 
-    var getSut = function () { return sut; };
-    ViewHelper.testShowCallsPresenterShow(getSut);
-    ViewHelper.testShowMethodsAreDefined(getSut);
+		var getSut = function () { return sut; };
+		ViewHelper.testShowCallsPresenterShow(getSut);
+		ViewHelper.testShowMethodsAreDefined(getSut);
+	});
 });

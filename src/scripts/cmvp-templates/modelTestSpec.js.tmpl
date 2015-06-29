@@ -1,4 +1,6 @@
-describe("<%= cmvpName %>Model", function () {
-    'use strict';
-    var <%= cmvpName %>Model = app.getModel('models/<%= cmvpName %>Model');
+define(function (require) {
+	describe("<%= cmvpName %>Model", function () {
+		'use strict';
+		var <%= cmvpName %>Model = require('models/<%= cmvpName %>Model');
+	});
 });

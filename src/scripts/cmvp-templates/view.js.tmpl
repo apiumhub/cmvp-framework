@@ -1,8 +1,8 @@
-app.registerView(function (container) {
+define(function (require) {
     "use strict";
-    var <%= cmvpName %>Presenter = container.getPresenter('presenters/<%= cmvpName %>Presenter');
-    var <%= cmvpName %>Model = container.getModel('models/<%= cmvpName %>Model');
-    var BaseView = container.getView('cmvp/views/BaseView');
+    var <%= cmvpName %>Presenter = require('presenters/<%= cmvpName %>Presenter');
+    var <%= cmvpName %>Model = require('models/<%= cmvpName %>Model');
+    var BaseView = require('cmvp/views/BaseView');
 
     function <%= cmvpName %>View($scope, presenter, model) {
         BaseView.constructor(this, $scope, presenter, model);

@@ -1,24 +1,28 @@
-describe("<%= cmvpName %>Presenter", function () {
-    'use strict';
-    var <%= cmvpName %>Presenter = app.getPresenter('presenters/<%= cmvpName %>Presenter');
-    var PresenterHelper = test.getHelper("Presenter");
-    var ServiceHelper = test.getHelper("Service");
+define(function (require) {
 
-    var sut, view, model;
-    beforeEach(function () {
-        view = {data: {}};
-        model = {};
-        sut = ServiceHelper.exerciseCreate(<%= cmvpName %>Presenter);
-    });
+	describe("<%= cmvpName %>Presenter", function () {
+		'use strict';
+		var <%= cmvpName %>Presenter = require('presenters/<%= cmvpName %>Presenter');
+		var PresenterHelper = test.getHelper("Presenter");
+		var ServiceHelper = test.getHelper("Service");
 
-    PresenterHelper.testShowEvents(function () { return sut; }, ['onLoad']);
+		var sut, view, model;
+		beforeEach(function () {
+			view = {data: {}};
+			model = {};
+			sut = ServiceHelper.exerciseCreate(<%= cmvpName %>Presenter);
+		});
 
-    describe("handleOnLoad", function () {
-        describe("always", function () {
-            it("should call view and/or method X", function () {
-                sut.handleOnLoad(view, model);
-                expect(true).toBe(true);
-            });
-        });
-    });
+		PresenterHelper.testShowEvents(function () { return sut; }, ['onLoad']);
+
+		describe("handleOnLoad", function () {
+			describe("always", function () {
+				it("should call view and/or method X", function () {
+					sut.handleOnLoad(view, model);
+					expect(true).toBe(true);
+				});
+			});
+		});
+	});
+
 });
