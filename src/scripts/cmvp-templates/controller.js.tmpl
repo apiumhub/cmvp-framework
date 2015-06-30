@@ -1,5 +1,8 @@
 define(function (require) {
     "use strict";
-    var BaseController = require('cmvp/controllers/BaseController');
-    return BaseController.makeClass("<%= cmvpName %>");
+	var View = require('<|= cmvpPath |>View');
+	function <|= cmvpName |> ($scope) {
+		BaseController.constructor(this, $scope, View);
+	};
+    return <|= cmvpName |>;
 });

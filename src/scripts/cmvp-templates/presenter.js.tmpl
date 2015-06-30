@@ -1,20 +1,20 @@
 define(function (require) {
     "use strict";
-    function <%= cmvpName %>Presenter() {
+    function <|= cmvpName |>Presenter() {
 
     }
 
-    <%= cmvpName %>Presenter.prototype.show = function (view, model) {
+    <|= cmvpName |>Presenter.prototype.show = function (view, model) {
         view.event.onLoad = this.handleOnLoad.bind(this, view, model);
     };
 
-    <%= cmvpName %>Presenter.prototype.handleOnLoad = function (view, model) {
+    <|= cmvpName |>Presenter.prototype.handleOnLoad = function (view, model) {
 
     };
 
-    <%= cmvpName %>Presenter.newInstance = function () {
-        return new <%= cmvpName %>Presenter;
+    <|= cmvpName |>Presenter.newInstance = function () {
+        return new <|= cmvpName |>Presenter;
     };
 
-    return <%= cmvpName %>Presenter;
+    return <|= cmvpName |>Presenter;
 });

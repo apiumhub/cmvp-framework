@@ -1,8 +1,8 @@
 define(function (require) {
-	describe('<%= cmvpName %>Controller', function () {
+	describe('<|= cmvpPath |>Controller', function () {
 		"use strict";
-		var <%= cmvpName %>Controller = require('controllers/<%= cmvpName %>Controller');
+		var <|= cmvpName |>Controller = require('<|= cmvpPath |>Controller');
 		var ControllerHelper = require('test-helpers/Controller');
-		ControllerHelper.testCallsViewShow(<%= cmvpName %>Controller);
+		ControllerHelper.testCallsViewShow(<|= cmvpName |>Controller);
 	});
 }
