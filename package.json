@@ -31,7 +31,6 @@
         "karma-coverage": ">=0.1",
         "karma-junit-reporter": "^0.2.2",
         "karma-requirejs": "^0.2.2",
-        "load-grunt-tasks": "^1.0.0",
-        "cmvp-test-helpers": "https://github.com/apiumtech/cmvp-test-helpers.git#d5ff4a9e534d40ba7fdcfd1318fc397f554d57cd"
+        "load-grunt-tasks": "^1.0.0"
     }
 }
