@@ -17,4 +17,5 @@ module.exports = function(grunt) {
 
     // load the Grunt task
     grunt.loadNpmTasks('grunt-karma');
+    grunt.registerTask('test', ['karma:unit']);
 };
