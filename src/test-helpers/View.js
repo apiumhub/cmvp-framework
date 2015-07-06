@@ -8,7 +8,7 @@ define(function (require) {
 
     return {
         exerciseCreate : function (View) {
-            var instance = View.newInstance($scope);
+            var instance = View.newInstance({$scope: $scope});
             expect(instance).toBeDefined();
             return instance;
         },
@@ -17,9 +17,9 @@ define(function (require) {
                 describe("when new instance is used", function () {
                     it("should let the presenter do the bindings", function () {
                         var sut = getSut();
-                        spyOn(sut.presenter, 'show');
+                        spyOn(sut.di.presenter, 'show');
                         sut.show();
-                        expect(sut.presenter.show).toHaveBeenCalled();
+                        expect(sut.di.presenter.show).toHaveBeenCalled();
                     });
                 });
             });
