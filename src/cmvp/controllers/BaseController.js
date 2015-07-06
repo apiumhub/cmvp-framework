@@ -12,7 +12,7 @@ define(function (require) {
     BaseController.makeClass = function (cmvpName) {
         var View = require('views/' + cmvpName + 'View');
         return function ($scope) {
-            BaseController.constructor(this, $scope, View);
+            BaseController.constructor(this, {$scope: $scope}, View);
         };
     };
 
