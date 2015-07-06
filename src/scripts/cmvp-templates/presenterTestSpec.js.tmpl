@@ -1,10 +1,9 @@
 define(function (require) {
-
-	describe("<|= cmvpName |>Presenter", function () {
-		'use strict';
+    'use strict';
+	describe('<|= cmvpName |>Presenter', function () {
 		var <|= cmvpName |>Presenter = require('<|= cmvpPath |>Presenter');
-		var PresenterHelper = require("test-helpers/Presenter");
-		var ServiceHelper = require("test-helpers/Service");
+		var PresenterHelper = require('test-helpers/Presenter');
+		var ServiceHelper = require('test-helpers/Service');
 
 		var sut, view, model;
 		beforeEach(function () {
@@ -15,9 +14,9 @@ define(function (require) {
 
 		PresenterHelper.testShowEvents(function () { return sut; }, ['onLoad']);
 
-		describe("handleOnLoad", function () {
-			describe("always", function () {
-				it("should call view and/or method X", function () {
+		describe('handleOnLoad', function () {
+			describe('always', function () {
+				it('should call view and/or method X', function () {
 					sut.handleOnLoad(view, model);
 					expect(true).toBe(true);
 				});

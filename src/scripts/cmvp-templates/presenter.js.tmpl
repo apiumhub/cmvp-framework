@@ -1,7 +1,7 @@
 define(function (require) {
-    "use strict";
-    function <|= cmvpName |>Presenter() {
-
+    'use strict';
+    function <|= cmvpName |>Presenter(di) {
+        this.di = di;
     }
 
     <|= cmvpName |>Presenter.prototype.show = function (view, model) {
@@ -12,8 +12,9 @@ define(function (require) {
 
     };
 
-    <|= cmvpName |>Presenter.newInstance = function () {
-        return new <|= cmvpName |>Presenter;
+    <|= cmvpName |>Presenter.newInstance = function (di) {
+        di = di || {};
+        return new <|= cmvpName |>Presenter(di);
     };
 
     return <|= cmvpName |>Presenter;

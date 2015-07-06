@@ -8,51 +8,33 @@ define(function (require) {
 
     var BaseView = {};
 
-    BaseView.constructor = function (self, $scope, presenter, model) {
-        BaseView.constructorDI(self, {$scope: $scope, presenter: presenter, model: model});
-    };
-
-    BaseView.newInstance = function ($scope, $presenter, $model, classes) {
-        function constructor (View, di) {
-            return new View(di.$scope, di.presenter, di.model);
-        }
-        return BaseView.newInstanceDI({$scope: $scope, presenter: $presenter, model: $model}, classes, constructor);
-    };
-
-    BaseView.constructorDI = function (self, di) {
+    BaseView.constructor = function (self, di) {
         self.event = {};
         self.fn = {};
         self.data = {};
-        self.$scope = di.$scope;
+        self.di = di;
 
-        self.$scope.event = self.event;
-        self.$scope.fn = self.fn;
-        self.$scope.data = self.data;
-
-        self.presenter = di.presenter;
-        self.model = di.model;
+        di.$scope.event = self.event;
+        di.$scope.fn = self.fn;
+        di.$scope.data = self.data;
     };
 
-    BaseView.newInstanceDI = function (di, classes, constructor) {
+    BaseView.newInstance = function (di, classes) {
         var View = classes.view;
 
         di = di || {};
         di.$scope = di.$scope || {};
-        di.presenter = di.presenter || makeNewInstanceOrThrow(classes.presenter, 'presenter');
-        di.model = di.model || makeNewInstanceOrThrow(classes.model, 'model');
+        di.presenter = di.presenter || classes.presenter.newInstance(di);
+        di.model = di.model || classes.model.newInstance(di);
 
-        var view = constructor ? constructor(View, di) : new View(di);
+        var view = new View(di);
         ViewRepaintAspect.weave(view);
         return view;
     };
 
-    function makeNewInstanceOrThrow (klass, classType) {
-        return klass.newInstance();
-    }
-
     BaseView.methods = {};
     BaseView.methods.show = function () {
-        this.presenter.show(this, this.model);
+        this.di.presenter.show(this, this.di.model);
     };
 
     BaseView.methods.showError = function (error) {

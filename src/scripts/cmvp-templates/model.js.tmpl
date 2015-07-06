@@ -1,12 +1,13 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
-    function <|= cmvpName |>() {
-
+    function <|= cmvpName |>(di) {
+        this.di = di;
     }
 
-    <|= cmvpName |>.newInstance = function () {
-        return new <|= cmvpName |>;
+    <|= cmvpName |>.newInstance = function (di) {
+        di = di || {};
+        return new <|= cmvpName |>(di);
     };
 
     return <|= cmvpName |>;

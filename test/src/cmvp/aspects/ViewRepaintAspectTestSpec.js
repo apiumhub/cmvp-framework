@@ -9,7 +9,7 @@ describe('cmvp/ViewRepaintAspect', function () {
     var ViewRepaintAspect = require('cmvp/aspects/ViewRepaintAspect');
 
     function exerciseCreateView($applyFunction) {
-        return {$scope: {$apply: $applyFunction}};
+        return {di: {$scope: {$apply: $applyFunction}}};
     }
 
     it("should call the $apply function after running some public method", function () {

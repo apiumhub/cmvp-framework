@@ -4,8 +4,8 @@
 define(function (require) {
     "use strict";
     var BaseController = {};
-    BaseController.constructor = function (self, $scope, View) {
-        self.view = View.newInstance($scope);
+    BaseController.constructor = function (self, di, View) {
+        self.view = View.newInstance(di);
         self.view.show();
     };
 
