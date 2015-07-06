@@ -13,7 +13,7 @@ define(function (require) {
                     it("should call the show method of the view", function () {
                         var $scope = Scope.getStub();
                         var spy = spyOn($scope, "$apply");
-                        var controller = new Controller({$scope: $scope});
+                        var controller = new Controller($scope);
                         expect(spy).toHaveBeenCalled();
                     });
                 });
