@@ -34,6 +34,32 @@ define(function (require) {
                     });
                 });
             });
+        },
+        testInitFn: function (getSut, expected) {
+
+            describe('initFn', function() {
+                describe('always', function() {
+                    function exerciseInitFn() {
+                        var sut = getSut();
+                        var fn = sut.fn = {};
+                        sut.initFn();
+                        return fn;
+                    }
+
+                    it('should define expected properties in fn', function() {
+                        var fn = exerciseInitFn();
+                        var actual = Object.keys(fn);
+                        expect(actual).toEqual(expected);
+                    });
+
+                    it('should define only functions', function() {
+                        var fn = exerciseInitFn();
+                        Object.keys(fn).forEach(function(key) {
+                            expect(typeof fn[key]).toBe('function');
+                        });
+                    });
+                });
+            });
         }
     };
 });

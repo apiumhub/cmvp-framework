@@ -2,6 +2,8 @@
  * Created by jose on 29/06/2015.
  */
 define(function (require) {
+    'use strict';
+
     describe("Expect", function () {
         var Expect = require("test-helpers/Expect");
 
