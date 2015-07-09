@@ -4,17 +4,17 @@ define(function (require) {
         this.di = di;
     }
 
+    <|= cmvpName |>Presenter.newInstance = function (di) {
+        di = di || {};
+        return new <|= cmvpName |>Presenter(di);
+    };
+
     <|= cmvpName |>Presenter.prototype.show = function (view, model) {
         view.event.onLoad = this.handleOnLoad.bind(this, view, model);
     };
 
     <|= cmvpName |>Presenter.prototype.handleOnLoad = function (view, model) {
 
-    };
-
-    <|= cmvpName |>Presenter.newInstance = function (di) {
-        di = di || {};
-        return new <|= cmvpName |>Presenter(di);
     };
 
     return <|= cmvpName |>Presenter;

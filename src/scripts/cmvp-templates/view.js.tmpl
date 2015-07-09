@@ -8,9 +8,6 @@ define(function (require) {
         BaseView.constructor(this, di);
     }
 
-    <|= cmvpName |>View.prototype.show = BaseView.methods.show;
-    <|= cmvpName |>View.prototype.showError = BaseView.methods.showError;
-
     <|= cmvpName |>View.newInstance = function (di) {
         var view = BaseView.newInstance(di, {
             presenter: <|= cmvpName |>Presenter,
@@ -19,6 +16,9 @@ define(function (require) {
         });
         return view;
     };
+
+    <|= cmvpName |>View.prototype.show = BaseView.methods.show;
+    <|= cmvpName |>View.prototype.showError = BaseView.methods.showError;
 
     return <|= cmvpName |>View;
 });
