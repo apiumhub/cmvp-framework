@@ -11,7 +11,7 @@ validate_name() {
         echo "Missing parameter 'relative_path_with_name'"
         echo "Example: $0 assignment/edit/Edit will generate"
         echo "         app/assignment/edit/EditController.js"
-        echo "         test/src/assignment/edit/EditControllerTestSpec.js"
+        echo "         test/src/assignment/edit/EditControllerTest.js"
         echo "         ... and more cmvp classes (view, presenter and model)"
         exit
     fi
@@ -48,10 +48,10 @@ declare -A FILES=(
     ["$TEMPLATES_PATH/view.js.tmpl"]="app/$1View.js"
     ["$TEMPLATES_PATH/presenter.js.tmpl"]="app/$1Presenter.js"
 
-    ["$TEMPLATES_PATH/controllerTestSpec.js.tmpl"]="test/src/$1ControllerTestSpec.js"
-    ["$TEMPLATES_PATH/modelTestSpec.js.tmpl"]="test/src/$1ModelTestSpec.js"
-    ["$TEMPLATES_PATH/viewTestSpec.js.tmpl"]="test/src/$1ViewTestSpec.js"
-    ["$TEMPLATES_PATH/presenterTestSpec.js.tmpl"]="test/src/$1PresenterTestSpec.js"
+    ["$TEMPLATES_PATH/controllerTest.js.tmpl"]="test/src/$1ControllerTest.js"
+    ["$TEMPLATES_PATH/modelTest.js.tmpl"]="test/src/$1ModelTest.js"
+    ["$TEMPLATES_PATH/viewTest.js.tmpl"]="test/src/$1ViewTest.js"
+    ["$TEMPLATES_PATH/presenterTest.js.tmpl"]="test/src/$1PresenterTest.js"
 )
 
 for KEY in "${!FILES[@]}"
