@@ -1,8 +1,49 @@
 #!/bin/bash
 
 set -e
+set -u
 
-TEMPLATES_PATH="$(dirname $(readlink -f $0))/cmvp-templates/"
+## CONSTANTS:
+readonly SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+readonly TEMPLATES_PATH="$SCRIPT_PATH/cmvp-templates/"
+
+## THESE CONSTANTS COULD BE DEFINED IN ANOTHER SCRIPT ADAPTED TO SPECIFIC NEEDS:
+readonly TEST_PATH=${TEST_PATH-"test/src"}
+readonly APP_PATH=${APP_PATH-"app"}
+
+readonly CONTROLLERS_PATH=${CONTROLLERS_PATH:-"."}
+readonly MODELS_PATH=${MODELS_PATH:-"."}
+readonly VIEWS_PATH=${VIEWS_PATH:-"."}
+readonly PRESENTERS_PATH=${PRESENTERS_PATH:-"."}
+
+readonly TEST_EXT=${TEST_EXT:-"Test.js"}
+
+## FILES TO BE CHANGED:
+declare -A FILES=(
+    ["$TEMPLATES_PATH/controller.js.tmpl"]="$APP_PATH/$CONTROLLERS_PATH/$1Controller.js"
+    ["$TEMPLATES_PATH/model.js.tmpl"]="$APP_PATH/$MODELS_PATH/$1Model.js"
+    ["$TEMPLATES_PATH/view.js.tmpl"]="$APP_PATH/$VIEWS_PATH/$1View.js"
+    ["$TEMPLATES_PATH/presenter.js.tmpl"]="$APP_PATH/$PRESENTERS_PATH/$1Presenter.js"
+
+    ["$TEMPLATES_PATH/controllerTest.js.tmpl"]="$TEST_PATH/$CONTROLLERS_PATH/$1Controller$TEST_EXT"
+    ["$TEMPLATES_PATH/modelTest.js.tmpl"]="$TEST_PATH/$MODELS_PATH/$1Model$TEST_EXT"
+    ["$TEMPLATES_PATH/viewTest.js.tmpl"]="$TEST_PATH/$VIEWS_PATH/$1View$TEST_EXT"
+    ["$TEMPLATES_PATH/presenterTest.js.tmpl"]="$TEST_PATH/$PRESENTERS_PATH/$1Presenter$TEST_EXT"
+)
+
+## FUNCTIONS:
+generate_cmvp() {
+    validate_name $1
+    local relativePath=$(dirname $1)
+
+    for key in "${!FILES[@]}"
+    do
+        local value=$(fix_path ${FILES[$key]})
+        make_file_from_template $key $value $1
+    done
+}
+
+fix_path() { echo "$1" | sed 's/\.\///g' ; }
 
 validate_name() {
     local name=$1
@@ -10,8 +51,8 @@ validate_name() {
         echo "Usage: $0 relative_path_with_name"
         echo "Missing parameter 'relative_path_with_name'"
         echo "Example: $0 assignment/edit/Edit will generate"
-        echo "         app/assignment/edit/EditController.js"
-        echo "         test/src/assignment/edit/EditControllerTest.js"
+        echo "         $APP_PATH/assignment/edit/EditController.js"
+        echo "         $TEST_PATH/assignment/edit/EditController$TEST_EXT"
         echo "         ... and more cmvp classes (view, presenter and model)"
         exit
     fi
@@ -25,6 +66,7 @@ make_file_from_template() {
     local pattern1="s%<|= cmvpName |>%$cmvpName%g"
     local pattern2="s%<|= cmvpPath |>%$cmvpPath%g"
     if [ ! -f "$dest" ]; then
+        mkdir -p $(dirname $dest)
         cp "$template" "$dest"
         sed "$pattern1" -i "$dest"
         sed "$pattern2" -i "$dest"
@@ -32,33 +74,11 @@ make_file_from_template() {
     fi
 }
 
-update_main() {
+## RUN
+if [[ "$SCRIPT_PATH" == "$(cd $(dirname $0) && pwd)" ]] ; then
+    generate_cmvp $1
+    echo
     echo "PLEASE, don't forget to update the dependency file"
-}
-
-validate_name $1
-relativePath=$(dirname $1)
-
-mkdir -p "app/$relativePath"
-mkdir -p "test/src/$relativePath"
-
-declare -A FILES=(
-    ["$TEMPLATES_PATH/controller.js.tmpl"]="app/$1Controller.js"
-    ["$TEMPLATES_PATH/model.js.tmpl"]="app/$1Model.js"
-    ["$TEMPLATES_PATH/view.js.tmpl"]="app/$1View.js"
-    ["$TEMPLATES_PATH/presenter.js.tmpl"]="app/$1Presenter.js"
-
-    ["$TEMPLATES_PATH/controllerTest.js.tmpl"]="test/src/$1ControllerTest.js"
-    ["$TEMPLATES_PATH/modelTest.js.tmpl"]="test/src/$1ModelTest.js"
-    ["$TEMPLATES_PATH/viewTest.js.tmpl"]="test/src/$1ViewTest.js"
-    ["$TEMPLATES_PATH/presenterTest.js.tmpl"]="test/src/$1PresenterTest.js"
-)
-
-for KEY in "${!FILES[@]}"
-do
-    make_file_from_template $KEY ${FILES[$KEY]} $1
-done
-
-update_main $1
-
-echo "done"
+    echo
+    echo "done"
+fi
