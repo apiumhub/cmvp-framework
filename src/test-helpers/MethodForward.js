@@ -9,13 +9,15 @@ define(function (require) {
             var method = options.method;
             var input = options.input;
             var forwarding = options.forwarding;
+            var innerMethod = options.innerMethod;
+            var innerName   = options.innerName;
             describe(method, function() {
                 describe('always', function() {
                     var returnValue = 'ajax-service-result';
                     var sut, spy, actual;
                     beforeEach(function() {
                         sut = getSut();
-                        spy = spyOn(sut.di.ajaxService, 'ajax').and.returnValue(returnValue);
+                        spy = spyOn(sut.di[innerName], innerMethod).and.returnValue(returnValue);
                         actual = sut[method].apply(sut, input);
                     });
                     it('should call once to the ajax service', function() {
