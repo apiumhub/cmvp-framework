@@ -44,6 +44,7 @@
             };
 
             impl.composedWith = function (anotherImpl) {
+
                 var x = impl.type + "|" + anotherImpl.type;
                 var newImpl = {type: x};
 
@@ -65,6 +66,8 @@
                     impl.initialize();
                     anotherImpl.initialize();
                 };
+
+                newImpl.reg = anotherImpl.reg;
 
                 return ApplicationFactory.newApplication(impl.name + " with " + anotherImpl.name + " ", newImpl);
             };
@@ -122,7 +125,6 @@
             if (jsScope.angular == null) {
                 throw new Error("AngularJS is not loaded into the current scope");
             }
-
             var angularApp = jsScope.angular.module(name, modules);
             angularApp.config(config);
 
@@ -156,8 +158,11 @@
                     jsScope.angular.bootstrap(document, [name]);
                 }
 
-
             };
+
+            impl.reg = {};
+            impl.reg.controller = angularApp.controller;
+            impl.reg.directive = angularApp.directive;
 
             return jsScope.ApplicationFactory.newApplication(name, impl);
         }
