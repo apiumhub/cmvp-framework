@@ -8,6 +8,19 @@ define(function (require) {
         this.headerProvider = headerProvider;
     }
 
+    AjaxService.prototype.rest = function (method, path, data) {
+        var params = this._prepareParams(method, path, data);
+        return Q.promise(function (resolve) {
+            function resolveJqXHR(jqXHR) {
+                delete jqXHR.then;
+                resolve(jqXHR);
+            }
+            $.ajax(params).then(function(data, textStatus, jqXHR) {
+                resolveJqXHR(jqXHR);
+            }, resolveJqXHR);
+        });
+    };
+
     AjaxService.prototype.ajax = function (method, path, data) {
         var params = this._prepareParams(method, path, data);
         return Q($.ajax(params))
