@@ -10,7 +10,7 @@ define(function (require) {
 
     AjaxService.prototype.rest = function (method, path, data) {
         var params = this._prepareParams(method, path, data);
-        return Q(function (resolve) {
+        return Q.promise(function (resolve) {
             function resolveJqXHR(jqXHR) {
                 delete jqXHR.then;
                 resolve(jqXHR);
