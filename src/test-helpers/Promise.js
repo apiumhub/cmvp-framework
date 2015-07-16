@@ -33,7 +33,7 @@ define(function (require) {
         var newResult = fOk(this.result);
         if (this._isPromise(newResult)) {
             return newResult;
-        } else if (newResult) {
+        } else if (newResult !== undefined) {
             this.result = newResult;
         }
         return this;
