@@ -37,12 +37,12 @@ define(function (require) {
         },
         testInitFn: function (getSut, expected) {
 
-            describe('initFn', function() {
+            describe('_initFn', function() {
                 describe('always', function() {
                     function exerciseInitFn() {
                         var sut = getSut();
                         var fn = sut.fn = {};
-                        sut.initFn();
+                        sut._initFn();
                         return fn;
                     }
 
