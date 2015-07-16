@@ -17,10 +17,10 @@ define(function (require) {
             try {
                 return this._thenOk(fOk);
             } catch (e) {
-                this.error = [e];
+                this.error = e;
             }
         }
-        return this.fail(fError);
+        return fError ? this.fail(fError) : this;
     };
 
     Fake.prototype._isPromise = function (promise) {
@@ -40,10 +40,11 @@ define(function (require) {
     };
 
     Fake.prototype.fail = function (fError) {
+        if (!this.error) { return this; }
         try {
             this.error = fError(this.error);
         } catch (e) {
-            this.error = [e];
+            this.error = e;
         }
         return this;
     };
@@ -60,8 +61,31 @@ define(function (require) {
 
     Fake.prototype.catch = Fake.prototype.fail;
 
+    Fake.prototype.getActualResult = function () {
+        if (this.error) {
+            throw this.error;
+        }
+        return this.result;
+    };
+
+    Fake.prototype.getActualError = function () {
+        if (!this.error) {
+            throw new Error("error is not registered!");
+        }
+        return this.error;
+    };
+
+    function makeExerciseFake (result, error) {
+        return function () {
+            return Fake.newInstance(result, error);
+        }
+    }
+
     return {
         fake: Fake.newInstance,
+        makeExerciseFake: makeExerciseFake,
+        exerciseFakeFail: makeExerciseFake(undefined, new Error("exerciseFakeFail error!")),
+        exerciseFakeOk:   makeExerciseFake("exerciseFakeOk result!"),
         Q: Q
     }
 
