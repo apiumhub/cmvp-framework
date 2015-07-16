@@ -8,9 +8,13 @@ define(function (require) {
         this.headerProvider = headerProvider;
     }
 
-    AjaxService.prototype.ajax = function (method, path, data) {
+    AjaxService.prototype.rest = function (method, path, data) {
         var params = this._prepareParams(method, path, data);
-        return Q($.ajax(params))
+        return Q($.ajax(params));
+    };
+
+    AjaxService.prototype.ajax = function (method, path, data) {
+        return this.rest(method, path, data)
             .catch(this._rethrowAjaxError.bind(this));
     };
 
