@@ -3,8 +3,18 @@
  */
 define(function (require) {
     "use strict";
+    var sinon = require('sinon');
+    var ViewHelper = require('test-helpers/View');
 
     return {
+        exerciseCreateMVP: function (View) {
+            var realView = ViewHelper.exerciseCreate(View);
+            return {
+                modelStub: sinon.stub(realView.di.model),
+                presenter: realView.di.presenter,
+                viewStub: sinon.stub(realView)
+            };
+        },
         testShowEvents: function (getSut, expected) {
             describe("show", function () {
                 describe("when view.event is empty", function () {
