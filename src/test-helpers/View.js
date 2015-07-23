@@ -7,8 +7,10 @@ define(function (require) {
     var $scope = require('test-helpers/Scope').getStub();
 
     return {
-        exerciseCreate : function (View) {
-            var instance = View.newInstance({$scope: $scope});
+        exerciseCreate : function (View, di) {
+            di = di || {};
+            di.$scope = di.$scope || $scope;
+            var instance = View.newInstance(di);
             expect(instance).toBeDefined();
             return instance;
         },

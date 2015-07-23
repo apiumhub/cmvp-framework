@@ -7,8 +7,8 @@ define(function (require) {
     var ViewHelper = require('test-helpers/View');
 
     return {
-        exerciseCreateMVP: function (View) {
-            var realView = ViewHelper.exerciseCreate(View);
+        exerciseCreateMVP: function (View, di) {
+            var realView = ViewHelper.exerciseCreate(View, di);
             return {
                 modelStub: sinon.stub(realView.di.model),
                 presenter: realView.di.presenter,
