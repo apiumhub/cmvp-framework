@@ -5,6 +5,7 @@ define(function (require) {
     "use strict";
     var sinon = require('sinon');
     var ViewHelper = require('test-helpers/View');
+    var PromiseHelper = require('test-helpers/Promise');
 
     return {
         exerciseCreateMVP: function (View, di) {
