@@ -79,6 +79,10 @@ define(function (require) {
         return !!this.error;
     };
 
+    Fake.prototype.isOk = function () {
+        return !this.hasError();
+    };
+
     function makeExerciseFake (result, error) {
         return function () {
             return Fake.newInstance(result, error);
