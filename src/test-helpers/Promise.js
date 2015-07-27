@@ -13,7 +13,7 @@ define(function (require) {
     };
 
     Fake.prototype.then = function (fOk, fError) {
-        if (!this.error) {
+        if (!this.hasError()) {
             try {
                 return this._thenOk(fOk);
             } catch (e) {
@@ -40,7 +40,7 @@ define(function (require) {
     };
 
     Fake.prototype.fail = function (fError) {
-        if (!this.error) { return this; }
+        if (!this.hasError()) { return this; }
         try {
             this.error = fError(this.error);
         } catch (e) {
@@ -50,7 +50,7 @@ define(function (require) {
     };
 
     Fake.prototype.done = function () {
-        if (!this.error) {
+        if (!this.hasError()) {
             return;
         }
         if (this.error instanceof Error) {
@@ -62,17 +62,21 @@ define(function (require) {
     Fake.prototype.catch = Fake.prototype.fail;
 
     Fake.prototype.getActualResult = function () {
-        if (this.error) {
+        if (this.hasError()) {
             throw this.error;
         }
         return this.result;
     };
 
     Fake.prototype.getActualError = function () {
-        if (!this.error) {
+        if (!this.hasError()) {
             throw new Error("error is not registered!");
         }
         return this.error;
+    };
+
+    Fake.prototype.hasError = function () {
+        return !!this.error;
     };
 
     function makeExerciseFake (result, error) {
