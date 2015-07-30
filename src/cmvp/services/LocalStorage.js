@@ -3,12 +3,12 @@
  */
 define(function (require) {
     "use strict";
-    function LocalStorageService() {
+    function LocalStorage() {
         this.error = undefined;
     }
 
     var namespace = "";
-    LocalStorageService.prototype.get = function (key) {
+    LocalStorage.prototype.get = function (key) {
         var json = window.localStorage[namespace + key];
         if (void(0) === json) {
             return;
@@ -23,7 +23,7 @@ define(function (require) {
         return value;
     };
 
-    LocalStorageService.prototype.set = function (key, value) {
+    LocalStorage.prototype.set = function (key, value) {
         try {
             window.localStorage[namespace + key] = JSON.stringify(value);
         } catch (e) {
@@ -32,9 +32,9 @@ define(function (require) {
         }
     };
 
-    LocalStorageService.newInstance = function () {
-        return new LocalStorageService;
+    LocalStorage.newInstance = function () {
+        return new LocalStorage;
     };
 
-    return LocalStorageService;
+    return LocalStorage;
 });
