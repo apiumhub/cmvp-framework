@@ -9,10 +9,11 @@ define(function (require) {
         self.view.show();
     };
 
-    BaseController.makeClass = function (cmvpName) {
+    BaseController.makeClass = function(cmvpName, constructor) {
+        constructor = constructor || BaseController.constructor
         var View = require('views/' + cmvpName + 'View');
-        return function ($scope) {
-            BaseController.constructor(this, {$scope: $scope}, View);
+        return function($scope) {
+            constructor(this, {$scope: $scope}, View);
         };
     };
 
