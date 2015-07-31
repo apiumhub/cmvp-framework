@@ -22,7 +22,7 @@ function main() {
             'cmvp/services/EventBus',
             'cmvp/services/AjaxService',
             'cmvp/services/CookieStorage',
-            'cmvp/services/LocalStorageService',
+            'cmvp/services/LocalStorage',
             'cmvp/aspects/ViewRepaintAspect',
             'cmvp/services/KeyboardService',
             'cmvp/services/GuestToHostChannel/Builder',

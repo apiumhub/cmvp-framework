@@ -9,22 +9,26 @@ define(function (require) {
     }
 
     AjaxService.prototype.rest = function (method, path, data) {
-        var params = this._prepareParams(method, path, data);
+        var ajaxCall = this._ajax(method, path, data);
         return Q.promise(function (resolve) {
             function resolveJqXHR(jqXHR) {
                 delete jqXHR.then;
                 resolve(jqXHR);
             }
-            $.ajax(params).then(function(data, textStatus, jqXHR) {
+            ajaxCall.then(function(data, textStatus, jqXHR) {
                 resolveJqXHR(jqXHR);
             }, resolveJqXHR);
         });
     };
 
-    AjaxService.prototype.ajax = function (method, path, data) {
-        var params = this._prepareParams(method, path, data);
-        return Q($.ajax(params))
+    AjaxService.prototype.ok = function (method, path, data) {
+        return Q(this._ajax(method, path, data))
             .catch(this._rethrowAjaxError.bind(this));
+    };
+
+    AjaxService.prototype._ajax = function (method, path, data) {
+        var params = this._prepareParams(method, path, data);
+        return $.ajax(params);
     };
 
     AjaxService.prototype._prepareParams = function (method, path, data) {

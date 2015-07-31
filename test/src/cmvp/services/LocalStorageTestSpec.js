@@ -2,13 +2,13 @@
  * Created by jose on 4/03/15.
  */
 define (function (require) {
-    describe("cmvp/LocalStorageService", function () {
-        var LocalStorageService = require("cmvp/services/LocalStorageService");
+    describe("cmvp/LocalStorage", function () {
+        var LocalStorage = require("cmvp/services/LocalStorage");
 
         var sut;
         beforeEach(function () {
             window.localStorage.clear();
-            sut = LocalStorageService.newInstance();
+            sut = LocalStorage.newInstance();
         });
 
         var validValue = "valid_value";
