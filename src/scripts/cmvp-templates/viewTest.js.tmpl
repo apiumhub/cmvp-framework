@@ -12,7 +12,7 @@ define(function (require) {
 		var getSut = function () { return sut; };
 		ViewHelper.testShowCallsPresenterShow(getSut);
 		ViewHelper.testShowMethodsAreDefined(getSut);
-		ViewHelper.testInitFn(getSut, []);
+		ViewHelper.testInitFn(getSut, ['showDetails', 'hideDetails']);
 
         describe('initData', function () {
             describe('always', function () {

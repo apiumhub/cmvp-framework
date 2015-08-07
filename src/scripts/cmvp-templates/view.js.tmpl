@@ -21,12 +21,19 @@ define(function (require) {
     <|= cmvpName |>View.prototype.show = BaseView.methods.show;
     <|= cmvpName |>View.prototype.showError = BaseView.methods.showError;
 
-    <|= cmvpName |>View.prototype._initFn = function() {
-        /* this.fn.someViewHelper = function() { code } */
+    <|= cmvpName |>View.prototype.initData = function (dto) {
+        this.fn.hideDetails();
+        this.data.dto = dto;
     };
 
-    <|= cmvpName |>View.prototype.initData = function(dto) {
-        this.data.dto = dto;
+    <|= cmvpName |>View.prototype._initFn = function () {
+        var data = this.data;
+        this.fn.showDetails = function () {
+            data.detailsVisible = true;
+        };
+        this.fn.hideDetails = function () {
+            data.detailsVisible = false;
+        };
     };
 
     return <|= cmvpName |>View;
