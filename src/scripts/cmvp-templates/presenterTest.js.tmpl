@@ -21,12 +21,13 @@ define(function (require) {
 		PresenterHelper.testShowEvents(getSut, ['onLoad']);
 
 		describe('handleOnLoad', function () {
-			describe('always', function () {
-				it('should call view and/or method X', function () {
-					sut.handleOnLoad(view, model);
-					expect(true).toBe(true);
-				});
-			});
+            var options = {
+                method: 'handleOnLoad',
+                modelMethod: 'initModel',
+                successHandler: 'initData',
+                errorHandler: 'showError'
+            };
+            handlerTester(options);
 		});
 	});
 

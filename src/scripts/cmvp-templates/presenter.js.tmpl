@@ -14,7 +14,9 @@ define(function (require) {
     };
 
     <|= cmvpName |>Presenter.prototype.handleOnLoad = function (view, model) {
-
+        model.initModel()
+            .then(view.initData.bind(view))
+            .catch(view.showError.bind(view));
     };
 
     return <|= cmvpName |>Presenter;

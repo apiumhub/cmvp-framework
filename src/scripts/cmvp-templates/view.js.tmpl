@@ -25,5 +25,9 @@ define(function (require) {
         /* this.fn.someViewHelper = function() { code } */
     };
 
+    <|= cmvpName |>View.prototype.initData = function(dto) {
+        this.data.dto = dto;
+    };
+
     return <|= cmvpName |>View;
 });

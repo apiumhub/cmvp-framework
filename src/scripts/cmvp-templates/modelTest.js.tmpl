@@ -1,6 +1,24 @@
 define(function (require) {
     'use strict';
 	describe('<|= cmvpPath |>Model', function () {
-		//var <|= cmvpName |>Model = require('<|= cmvpPath |>Model');
+		var <|= cmvpName |>Model = require('<|= cmvpPath |>Model');
+		var PromiseHelper = require('test-helpers/Promise');
+
+		var sut;
+		beforeEach(function () {
+		    sut = <|= cmvpName |>Model.newInstance({Q: PromiseHelper.fake});
+		});
+
+        function mkInitialDTO() {
+            return {};
+        }
+
+		describe('initModel', function () {
+		    describe('always', function () {
+		        it('should return the initial dto', function() {
+                    expect(sut.initModel().getActualResult()).toEqual(mkInitialDTO());
+		        });
+		    });
+		});
 	});
 });
