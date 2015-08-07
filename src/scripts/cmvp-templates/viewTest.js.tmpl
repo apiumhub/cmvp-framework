@@ -14,13 +14,13 @@ define(function (require) {
 		ViewHelper.testShowMethodsAreDefined(getSut);
 		ViewHelper.testInitFn(getSut, []);
 
-		describe('initData', function () {
+        describe('initData', function () {
             describe('always', function () {
-            	it('should fill sut.data', function () {
-            		sut.initData({});
-            		expect(Object.keys(sut.data).length).toBeTruthy();
-            	});
+                it('should fill sut.data', function () {
+                    sut.initData({});
+                    expect(Object.keys(sut.data).length).toBeTruthy();
+                });
             });
-		});
+        });
 	});
 });
