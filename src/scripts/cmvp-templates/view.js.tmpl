@@ -6,6 +6,7 @@ define(function (require) {
 
     function <|= cmvpName |>View(di) {
         BaseView.constructor(this, di);
+        this._initFn();
     }
 
     <|= cmvpName |>View.newInstance = function (di) {
@@ -19,6 +20,10 @@ define(function (require) {
 
     <|= cmvpName |>View.prototype.show = BaseView.methods.show;
     <|= cmvpName |>View.prototype.showError = BaseView.methods.showError;
+
+    <|= cmvpName |>View.prototype._initFn = function() {
+        /* this.fn.someViewHelper = function() { code } */
+    };
 
     return <|= cmvpName |>View;
 });
