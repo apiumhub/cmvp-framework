@@ -59,7 +59,11 @@ define(function (require) {
                     it('calls to model', function() {
                         model[modelMethod].returns(PromiseHelper.fake('ok'));
                         exerciseCallHandler();
-                        expect(model[modelMethod].calledWith(modelMethodCalledWith)).toEqual(true);
+                        if (modelMethodCalledWith) {
+                            expect(model[modelMethod].calledWith(modelMethodCalledWith)).toEqual(true);
+                        } else {
+                            expect(model[modelMethod].called).toEqual(true);
+                        }
                     });
                 });
 
