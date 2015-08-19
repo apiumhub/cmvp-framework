@@ -16,13 +16,13 @@ define(function (require) {
         };
     };
 
-    var testShowEvents = function (getSut, expected) {
+    var testShowDefineEvents = function (getSut, expected) {
         function getView() { return {event: {}, fn: {}}; }
         function getModel() { return {}; }
-        testShowHandlers(getSut, getView, getModel, expected);
+        testShowSetsValidEvents(getSut, getView, getModel, expected);
     };
 
-    var testShowHandlers = function (getSut, getView, getModel, expected) {
+    var testShowSetsValidEvents = function (getSut, getView, getModel, expected) {
         describe("show", function () {
             describe("when view.event is empty", function () {
                 it("should define events on show", function () {
@@ -100,8 +100,8 @@ define(function (require) {
 
     return {
         exerciseCreateMVP: exerciseCreateMVP,
-        testShowEvents: testShowEvents,
-        testShowHandlers: testShowHandlers,
+        testShowDefineEvents: testShowDefineEvents,
+        testShowSetsValidEvents: testShowSetsValidEvents,
         exerciseRequestModel: exerciseRequestModel
     };
 });

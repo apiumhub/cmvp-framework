@@ -16,7 +16,7 @@ define(function (require) {
         function getModel() { return model; }
         function getView() { return view; }
 
-		PresenterHelper.testShowHandlers(getSut, getView, getModel, ['onLoad']);
+		PresenterHelper.testShowSetsValidEvents(getSut, getView, getModel, ['onLoad']);
 	});
 
 });
