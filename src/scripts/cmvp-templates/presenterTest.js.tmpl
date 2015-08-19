@@ -16,19 +16,7 @@ define(function (require) {
         function getModel() { return model; }
         function getView() { return view; }
 
-        var handlerTester = PresenterHelper.exerciseRequestModel(getModel, getView, getSut);
-
-		PresenterHelper.testShowEvents(getSut, ['onLoad']);
-
-		describe('handleOnLoad', function () {
-            var options = {
-                method: 'handleOnLoad',
-                modelMethod: 'initModel',
-                successHandler: 'initData',
-                errorHandler: 'showError'
-            };
-            handlerTester(options);
-		});
+		PresenterHelper.testShowHandlers(getSut, getView, getModel, ['onLoad']);
 	});
 
 });

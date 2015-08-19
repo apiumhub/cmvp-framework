@@ -1,5 +1,7 @@
 define(function (require) {
     'use strict';
+    var PresenterHandlerCreator = require('cmvp/services/PresenterHandlerCreator');
+
     function <|= cmvpName |>Presenter(di) {
         this.di = di;
     }
@@ -10,13 +12,8 @@ define(function (require) {
     };
 
     <|= cmvpName |>Presenter.prototype.show = function (view, model) {
-        view.event.onLoad = this.handleOnLoad.bind(this, view, model);
-    };
-
-    <|= cmvpName |>Presenter.prototype.handleOnLoad = function (view, model) {
-        model.initModel()
-            .then(view.initData.bind(view))
-            .catch(view.showError.bind(view));
+        var creator = new PresenterHandlerCreator(this, view, model);
+        view.event.onLoad = creator.createEventHandler({modelMethod: 'initModel', viewSuccess: 'initData'});
     };
 
     return <|= cmvpName |>Presenter;
