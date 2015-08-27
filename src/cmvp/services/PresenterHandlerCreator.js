@@ -74,7 +74,7 @@ define(function(require) {
     };
 
     EventHandler.prototype._getResponse = function(DTO, context) {
-        return this.callbacks.modelCb(this.callbacks.decoratorCb(DTO, context));
+        return this.callbacks.modelCb(this.callbacks.decoratorCb(DTO, context), context);
     };
 
     EventHandler.prototype._isPromise = function(response) {
