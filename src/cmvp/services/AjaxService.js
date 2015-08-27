@@ -63,7 +63,7 @@ define(function (require) {
         } else if (exception === 'abort') {
             throw new Error('Ajax request aborted.');
         } else {
-            throw new Error({status: jqXHR.status, response: jqXHR.responseText});
+            throw {status: jqXHR.status, response: jqXHR.responseText};
         }
     };
 
