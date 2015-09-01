@@ -1,16 +1,21 @@
 define(function (require) {
     'use strict';
 
+    var Q = require('q');
+
     function <|= cmvpName |>(di) {
         this.di = di;
     }
 
     <|= cmvpName |>.newInstance = function (di) {
         di = di || {};
+        di.Q = di.Q || Q;
         return new <|= cmvpName |>(di);
     };
 
-    //TODO add methods to <|= cmvpName |>.prototype
+    <|= cmvpName |>.prototype.initModel = function () {
+        return this.di.Q({});
+    };
 
     return <|= cmvpName |>;
 });

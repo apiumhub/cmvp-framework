@@ -1,27 +1,22 @@
 define(function (require) {
     'use strict';
-	describe('<|= cmvpName |>Presenter', function () {
-		var <|= cmvpName |>Presenter = require('<|= cmvpPath |>Presenter');
+	describe('<|= cmvpPath |>Presenter', function () {
 		var PresenterHelper = require('test-helpers/Presenter');
-		var ServiceHelper = require('test-helpers/Service');
+		var <|= cmvpName |>View = require('<|= cmvpPath |>View');
 
-		var sut, view, model;
-		beforeEach(function () {
-			view = {data: {}};
-			model = {};
-			sut = ServiceHelper.exerciseCreate(<|= cmvpName |>Presenter);
-		});
+        var sut, view, model;
+        beforeEach(function() {
+            var mvp = PresenterHelper.exerciseCreateMVP(<|= cmvpName |>View);
+            view = mvp.viewStub;
+            model = mvp.modelStub;
+            sut = mvp.presenter;
+        });
 
-		PresenterHelper.testShowEvents(function () { return sut; }, ['onLoad']);
+        function getSut() { return sut; }
+        function getModel() { return model; }
+        function getView() { return view; }
 
-		describe('handleOnLoad', function () {
-			describe('always', function () {
-				it('should call view and/or method X', function () {
-					sut.handleOnLoad(view, model);
-					expect(true).toBe(true);
-				});
-			});
-		});
+		PresenterHelper.testShowSetsValidEvents(getSut, getView, getModel, ['onLoad']);
 	});
 
 });

@@ -54,7 +54,21 @@ function test_main() {
     // initialize the base application
     main();
     // run tests
-    require(app.manifest.src, function () {
+    require([
+        'cmvp/services/EventBus',
+        'cmvp/services/AjaxService',
+        'cmvp/services/CookieStorage',
+        'cmvp/services/LocalStorage',
+        'cmvp/aspects/ViewRepaintAspect',
+        'cmvp/services/KeyboardService',
+        'cmvp/services/GuestToHostChannel/Builder',
+        'cmvp/services/GuestToHostChannel/Box',
+        'cmvp/services/GuestToHostChannel/GuestSenderChannel',
+        'cmvp/services/GuestToHostChannel/HostReceiverChannel',
+
+        // Bases CMVP
+        'cmvp/controllers/BaseController', 'cmvp/views/BaseView'
+    ], function() {
         require(tests, window.__karma__.start);
     });
 }

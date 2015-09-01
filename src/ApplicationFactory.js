@@ -141,14 +141,16 @@
             impl.initialize = function () {
                 if (impl.isComposedWith("require")) {
                     jsScope.require(["Application"], function (app) {
-                        app.manifest.src.forEach(function (value) {
-                            if (value.indexOf("Controller") != -1) {
-                                angularApp.controller(value.substring(value.lastIndexOf('/') + 1), ['$scope', '$routeParams', function ($scope, $routeParams) {
-                                    var constr = jsScope.require(value);
-                                    var constr2 = constr.bind(null, $scope, $routeParams);
-                                    var instance = new constr2();
-                                    return instance;
-                                }]);
+                        app.manifest.src.forEach(function (path) {
+                            var nameComponent = path.substring(path.lastIndexOf('/') + 1);
+                            var Component = jsScope.require(path);
+                            Component.$inject = Component.$inject || ['$scope', '$routeParams'];
+                            if (nameComponent.indexOf('Controller') !== -1) {
+                                angularApp.controller(nameComponent, Component);
+                            } else if (nameComponent.indexOf('Directive') !== -1) {
+                                angularApp.directive(nameComponent, Component);
+                            } else {
+                                throw new Error('cant initialize component ' + nameComponent + ": " + path);
                             }
                         });
 
@@ -157,12 +159,7 @@
                 } else {
                     jsScope.angular.bootstrap(document, [name]);
                 }
-
             };
-
-            impl.reg = {};
-            impl.reg.controller = angularApp.controller;
-            impl.reg.directive = angularApp.directive;
 
             return jsScope.ApplicationFactory.newApplication(name, impl);
         }

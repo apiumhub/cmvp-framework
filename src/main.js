@@ -18,21 +18,7 @@ function main() {
     app.manifest = {
         authors: [ 'apium tech' ],
         version: 0.1,
-        src: [
-            'cmvp/services/EventBus',
-            'cmvp/services/AjaxService',
-            'cmvp/services/CookieStorage',
-            'cmvp/services/LocalStorage',
-            'cmvp/aspects/ViewRepaintAspect',
-            'cmvp/services/KeyboardService',
-            'cmvp/services/GuestToHostChannel/Builder',
-            'cmvp/services/GuestToHostChannel/Box',
-            'cmvp/services/GuestToHostChannel/GuestSenderChannel',
-            'cmvp/services/GuestToHostChannel/HostReceiverChannel',
-
-            // Bases CMVP
-            'cmvp/controllers/BaseController', 'cmvp/views/BaseView'
-        ]
+        src: []
     };
 
     /** Application basic configuration **/

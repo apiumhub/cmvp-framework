@@ -12,6 +12,14 @@ define(function (require) {
         return new Fake(ok, error);
     };
 
+    Fake.newInstance.fcall = function(fn) {
+        try {
+            return new Fake(fn());
+        } catch(e) {
+            return new Fake(undefined, e);
+        }
+    };
+
     Fake.prototype.then = function (fOk, fError) {
         if (!this.hasError()) {
             try {

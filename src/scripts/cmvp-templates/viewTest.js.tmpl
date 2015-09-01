@@ -1,6 +1,6 @@
 define(function (require) {
     'use strict';
-	describe('<|= cmvpName |>View', function () {
+	describe('<|= cmvpPath |>View', function () {
 		var <|= cmvpName |>View = require('<|= cmvpPath |>View');
 		var ViewHelper = require('test-helpers/View');
 
@@ -12,5 +12,15 @@ define(function (require) {
 		var getSut = function () { return sut; };
 		ViewHelper.testShowCallsPresenterShow(getSut);
 		ViewHelper.testShowMethodsAreDefined(getSut);
+		ViewHelper.testInitFn(getSut, ['showDetails', 'hideDetails']);
+
+        describe('initData', function () {
+            describe('always', function () {
+                it('should fill sut.data', function () {
+                    sut.initData({});
+                    expect(Object.keys(sut.data).length).toBeTruthy();
+                });
+            });
+        });
 	});
 });
