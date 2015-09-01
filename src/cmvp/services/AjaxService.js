@@ -41,7 +41,6 @@ define(function (require) {
 
         if (this.headerProvider) {
             params.headers = this.headerProvider.getHeader();
-            params.cache = this.headerProvider.getCache();
         }
 
         if (data) {
