@@ -36,7 +36,8 @@ define(function (require) {
             dataType: "json",
             contentType: "application/json",
             type: method,
-            url: path
+            url: path,
+            cache: false
         };
 
         if (this.headerProvider) {
