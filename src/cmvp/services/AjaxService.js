@@ -36,12 +36,12 @@ define(function (require) {
             dataType: "json",
             contentType: "application/json",
             type: method,
-            url: path,
-            cache: false
+            url: path
         };
 
         if (this.headerProvider) {
             params.headers = this.headerProvider.getHeader();
+            params.cache = this.headerProvider.getCache();
         }
 
         if (data) {
