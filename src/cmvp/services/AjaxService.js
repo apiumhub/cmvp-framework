@@ -8,8 +8,8 @@ define(function (require) {
         this.headerProvider = headerProvider;
     }
 
-    AjaxService.prototype.rest = function (method, path, data) {
-        var ajaxCall = this._ajax(method, path, data);
+    AjaxService.prototype.rest = function (method, path, data, options) {
+        var ajaxCall = this._ajax(method, path, data, options);
         return Q.promise(function (resolve) {
             function resolveJqXHR(jqXHR) {
                 delete jqXHR.then;
@@ -21,23 +21,28 @@ define(function (require) {
         });
     };
 
-    AjaxService.prototype.ok = function (method, path, data) {
-        return Q(this._ajax(method, path, data))
+    AjaxService.prototype.ok = function (method, path, data, options) {
+        return Q(this._ajax(method, path, data, options))
             .catch(this._rethrowAjaxError.bind(this));
     };
 
-    AjaxService.prototype._ajax = function (method, path, data) {
-        var params = this._prepareParams(method, path, data);
+    AjaxService.prototype._ajax = function (method, path, data, options) {
+        var params = this._prepareParams(method, path, data, options);
         return $.ajax(params);
     };
 
-    AjaxService.prototype._prepareParams = function (method, path, data) {
+    AjaxService.prototype._prepareParams = function (method, path, data, options) {
         var params = {
             dataType: "json",
             contentType: "application/json",
             type: method,
-            url: path
+            url: path,
+            cache: false
         };
+
+        if (options) {
+            params.cache = options.cache;
+        }
 
         if (this.headerProvider) {
             params.headers = this.headerProvider.getHeader();
