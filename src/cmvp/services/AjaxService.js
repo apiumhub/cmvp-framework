@@ -4,8 +4,7 @@
 define(function (require) {
     var Q = require('q');
 
-    function AjaxService (headerProvider) {
-        this.headerProvider = headerProvider;
+    function AjaxService () {
     }
 
     AjaxService.prototype.rest = function (method, path, data, options) {
@@ -42,10 +41,7 @@ define(function (require) {
 
         if (options) {
             params.cache = options.cache;
-        }
-
-        if (this.headerProvider) {
-            params.headers = this.headerProvider.getHeader();
+            params.headers = options.headers;
         }
 
         if (data) {
@@ -72,8 +68,8 @@ define(function (require) {
         }
     };
 
-    AjaxService.newInstance = function (headerProvider) {
-        return new AjaxService(headerProvider);
+    AjaxService.newInstance = function () {
+        return new AjaxService();
     };
 
     return AjaxService;
