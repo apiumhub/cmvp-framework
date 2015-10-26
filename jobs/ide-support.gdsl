@@ -1,0 +1,11 @@
+
+/**
+ * @author kevin
+ * @since 10/1/15.
+ */
+def jobPath = /.*\/jobs\/.*\.groovy/
+
+def ctx = context(pathRegexp: jobPath)
+contributor(ctx, {
+    delegatesTo(findClass('javaposse.jobdsl.dsl.DslFactory'))
+})

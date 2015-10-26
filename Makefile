@@ -8,16 +8,14 @@ clean:
 	@npm prune --production
 	rm -f artifact.tgz
 
+docker-image:
+	@docker build -t $(IMAGE) .
+
 docker-build:
 	@docker build -t $(IMAGE) .
 
-docker-push:
-	@docker push $(IMAGE)
-
 docker-run-create-artifact:
-	docker rm "$(TEMP_CONTAINER)" || true
-	docker run --name "$(TEMP_CONTAINER)" -v $(shell pwd)/:/tmp/ $(IMAGE) make create-artifact
-	docker rm "$(TEMP_CONTAINER)"
+	docker run --rm -v $(shell pwd)/:/tmp/ $(IMAGE) make create-artifact
 
 create-artifact:
 	@make clean
