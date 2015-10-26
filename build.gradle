@@ -1,0 +1,41 @@
+group 'com.apiumtech'
+version '1.0'
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+sourceSets {
+    jobs {
+        groovy {
+            srcDirs 'jobs'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://repo.jenkins-ci.org/releases/'
+    }
+
+    maven {
+        url 'http://nexus.apiumtech.com/nexus/content/repositories/releases/'
+        credentials {
+            username "developer"
+            password "sonadev"
+        }
+    }
+}
+
+task "runtime-libraries"(type: Copy) {
+    into 'runtime-libraries'
+    from configurations.runtime
+}
+
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile 'org.jenkins-ci.plugins:job-dsl-core:1.38'
+
+    runtime 'com.apiumtech:apium-jenkins-dsl:1.0.2'
+}
