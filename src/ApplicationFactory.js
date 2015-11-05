@@ -34,6 +34,7 @@
         di = di || {};
         di.jsScope = di.jsScope || jsScope;
         di.dom = di.dom || jsScope.document;
+        di.angularModules = di.angularModules || ['ngRoute'];
         return new App(di);
     };
 
@@ -45,12 +46,13 @@
     };
 
     App.prototype._run = function() {
-        var angular       = this.di.jsScope.angular;
-        var dom           = this.di.dom;
-        var components    = this.di.components;
-        var angularConfig = this.di.angularConfig;
+        var angular        = this.di.jsScope.angular;
+        var dom            = this.di.dom;
+        var components     = this.di.components;
+        var angularConfig  = this.di.angularConfig;
+        var angularModules = this.di.angularModules;
 
-        var angularApp = angular.module('AngularApp', ['ngRoute']);
+        var angularApp = angular.module('AngularApp', angularModules);
         angularApp.config(angularConfig);
         components.forEach(this._setupComponent.bind(this, angularApp));
         angular.bootstrap(dom, ['AngularApp']);
