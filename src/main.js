@@ -12,22 +12,9 @@ function main() {
     AngularConfig.$inject = [ '$routeProvider', '$compileProvider', '$sceDelegateProvider' ];
 
     /** Application Building **/
-    app = ApplicationFactory.newRequireApplication("RequireJS")
-        .composedWith(ApplicationFactory.newAngularApplication('AngularApp', [ 'ngRoute' ], AngularConfig));
-
-    app.manifest = {
-        authors: [ 'apium tech' ],
-        version: 0.1,
-        src: []
-    };
-
-    /** Application basic configuration **/
-    app.registerObject({name: 'SourceList', dependencies: app.manifest.src}, function () {
-        return app.manifest.src;
-    });
-
-    app.registerObject({name: "Application", dependencies: ["SourceList"]}, function () {
-        return app;
+    app = ApplicationFactory.newInstance({
+        components: [],
+        angularConfig: AngularConfig
     });
 
     app.initialize();

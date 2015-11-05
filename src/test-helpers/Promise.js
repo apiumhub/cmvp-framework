@@ -13,48 +13,38 @@ define(function (require) {
     };
 
     Fake.newInstance.fcall = function(fn) {
-        try {
-            return new Fake(fn());
-        } catch(e) {
-            return new Fake(undefined, e);
-        }
+        return new Fake().then(fn);
     };
 
     Fake.prototype.then = function (fOk, fError) {
-        if (!this.hasError()) {
-            try {
-                return this._thenOk(fOk);
-            } catch (e) {
-                this.error = e;
-            }
+        if (this.hasError()) {
+            return fError ? this.fail(fError) : this;
         }
-        return fError ? this.fail(fError) : this;
+        try {
+            return this._thenOk(fOk);
+        } catch (e) {
+            var errorFake = new Fake(undefined, e);
+            return fError ? errorFake.fail(fError) : errorFake;
+        }
     };
 
     Fake.prototype._isPromise = function (promise) {
-        return typeof promise === 'object' && (
-            promise.constructor === Fake ||
-            promise.constructor === Q);
+        return (typeof promise === 'object' || typeof promise === 'function') &&
+            typeof promise.then === 'function';
     };
 
     Fake.prototype._thenOk = function (fOk) {
         var newResult = fOk(this.result);
-        if (this._isPromise(newResult)) {
-            return newResult;
-        } else if (newResult !== undefined) {
-            this.result = newResult;
-        }
-        return this;
+        return this._isPromise(newResult) ? newResult : new Fake(newResult);
     };
 
     Fake.prototype.fail = function (fError) {
         if (!this.hasError()) { return this; }
         try {
-            this.error = fError(this.error);
+            return new Fake(fError(this.error));
         } catch (e) {
-            this.error = e;
+            return new Fake(undefined, e);
         }
-        return this;
     };
 
     Fake.prototype.done = function () {
