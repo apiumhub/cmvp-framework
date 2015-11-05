@@ -18,13 +18,12 @@ define(function (require) {
 
     Fake.prototype.then = function (fOk, fError) {
         if (this.hasError()) {
-            return fError ? this.fail(fError) : this;
+            return this.fail(fError);
         }
         try {
             return this._thenOk(fOk);
         } catch (e) {
-            var errorFake = new Fake(undefined, e);
-            return fError ? errorFake.fail(fError) : errorFake;
+            return new Fake(undefined, e).fail(fError);
         }
     };
 
@@ -34,12 +33,15 @@ define(function (require) {
     };
 
     Fake.prototype._thenOk = function (fOk) {
+        if (fOk === undefined) {
+            return this;
+        }
         var newResult = fOk(this.result);
         return this._isPromise(newResult) ? newResult : new Fake(newResult);
     };
 
     Fake.prototype.fail = function (fError) {
-        if (!this.hasError()) { return this; }
+        if (this.isOk() || fError === undefined) { return this; }
         try {
             return new Fake(fError(this.error));
         } catch (e) {
@@ -48,13 +50,9 @@ define(function (require) {
     };
 
     Fake.prototype.done = function () {
-        if (!this.hasError()) {
-            return;
-        }
-        if (this.error instanceof Error) {
+        if (this.hasError()) {
             throw this.error;
         }
-        throw new Error(this.error);
     };
 
     Fake.prototype.catch = Fake.prototype.fail;
