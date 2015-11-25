@@ -4,12 +4,13 @@
 define(function (require) {
     var Q = require('q');
 
-    function AjaxService () {
+    function AjaxService (di) {
+        this.di = di;
     }
 
     AjaxService.prototype.rest = function (method, path, data, options) {
         var ajaxCall = this._ajax(method, path, data, options);
-        return Q.promise(function (resolve) {
+        return this.di.Q.promise(function (resolve) {
             function resolveJqXHR(jqXHR) {
                 delete jqXHR.then;
                 resolve(jqXHR);
@@ -21,13 +22,13 @@ define(function (require) {
     };
 
     AjaxService.prototype.ok = function (method, path, data, options) {
-        return Q(this._ajax(method, path, data, options))
+        return this.di.Q(this._ajax(method, path, data, options))
             .catch(this._rethrowAjaxError.bind(this));
     };
 
     AjaxService.prototype._ajax = function (method, path, data, options) {
         var params = this._prepareParams(method, path, data, options);
-        return $.ajax(params);
+        return this.di.$.ajax(params);
     };
 
     AjaxService.prototype._prepareParams = function (method, path, data, options) {
@@ -68,8 +69,11 @@ define(function (require) {
         }
     };
 
-    AjaxService.newInstance = function () {
-        return new AjaxService();
+    AjaxService.newInstance = function (di) {
+        di = di || {};
+        di.Q = di.Q || Q;
+        di.$ = di.$ || $;
+        return new AjaxService(di);
     };
 
     return AjaxService;
