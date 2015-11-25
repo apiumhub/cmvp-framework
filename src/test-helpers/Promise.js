@@ -6,10 +6,29 @@ define(function (require) {
     function Fake (result, error) {
         this.result = result;
         this.error = error;
+        this.notifications = [];
     }
 
     Fake.newInstance = function (ok, error) {
         return new Fake(ok, error);
+    };
+
+    Fake.newInstance.Promise = function(fn) {
+        var fake = new Fake(undefined, new Error('Promise hasn\'t been resolved nor rejected yet.'));
+
+        function resolve(result) {
+            delete fake.error;
+            fake.result = result;
+        }
+        function reject(error) {
+            fake.error = error;
+            delete fake.result;
+        }
+        function notify(message) {
+            fake.notifications.push(message);
+        }
+        fn(resolve, reject, notify);
+        return fake;
     };
 
     Fake.newInstance.fcall = function(fn) {
