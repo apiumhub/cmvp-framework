@@ -32,58 +32,46 @@ define(function (require) {
     };
 
     Fake.newInstance.fcall = function(fn) {
+        return new Fake().then(fn);
+    };
+
+    Fake.prototype.then = function (fOk, fError) {
+        if (this.hasError()) {
+            return this.fail(fError);
+        }
         try {
-            return new Fake(fn());
-        } catch(e) {
+            return this._thenOk(fOk);
+        } catch (e) {
+            return new Fake(undefined, e).fail(fError);
+        }
+    };
+
+    Fake.prototype._isPromise = function (promise) {
+        return (typeof promise === 'object' || typeof promise === 'function') &&
+            typeof promise.then === 'function';
+    };
+
+    Fake.prototype._thenOk = function (fOk) {
+        if (fOk === undefined) {
+            return this;
+        }
+        var newResult = fOk(this.result);
+        return this._isPromise(newResult) ? newResult : new Fake(newResult);
+    };
+
+    Fake.prototype.fail = function (fError) {
+        if (this.isOk() || fError === undefined) { return this; }
+        try {
+            return new Fake(fError(this.error));
+        } catch (e) {
             return new Fake(undefined, e);
         }
     };
 
-    Fake.prototype.then = function (fOk, fError) {
-        if (!this.hasError()) {
-            try {
-                return this._thenOk(fOk);
-            } catch (e) {
-                this.error = e;
-            }
-        }
-        return fError ? this.fail(fError) : this;
-    };
-
-    Fake.prototype._isPromise = function (promise) {
-        return typeof promise === 'object' && (
-            promise.constructor === Fake ||
-            promise.constructor === Q);
-    };
-
-    Fake.prototype._thenOk = function (fOk) {
-        var newResult = fOk(this.result);
-        if (this._isPromise(newResult)) {
-            return newResult;
-        } else if (newResult !== undefined) {
-            this.result = newResult;
-        }
-        return this;
-    };
-
-    Fake.prototype.fail = function (fError) {
-        if (!this.hasError()) { return this; }
-        try {
-            this.error = fError(this.error);
-        } catch (e) {
-            this.error = e;
-        }
-        return this;
-    };
-
     Fake.prototype.done = function () {
-        if (!this.hasError()) {
-            return;
-        }
-        if (this.error instanceof Error) {
+        if (this.hasError()) {
             throw this.error;
         }
-        throw new Error(this.error);
     };
 
     Fake.prototype.catch = Fake.prototype.fail;
