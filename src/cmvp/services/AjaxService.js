@@ -32,22 +32,17 @@ define(function (require) {
     };
 
     AjaxService.prototype._prepareParams = function (method, path, data, options) {
-        var params = {
-            dataType: "json",
-            contentType: "application/json",
-            type: method,
-            url: path,
-            cache: false
-        };
-
-        if (options) {
-            params.cache = options.cache;
-            params.headers = options.headers;
-        }
+        var params = options || {};
+        params.dataType = options.dataType || "json";
+        params.contentType = options.contentType || "application/json";
+        params.url = path;
+        params.type = method;
+        params.cache = options.cache || false;
 
         if (data) {
             params.data = (typeof data == 'string' || data instanceof String) ? data : JSON.stringify(data);
         }
+
         return params;
     };
 
