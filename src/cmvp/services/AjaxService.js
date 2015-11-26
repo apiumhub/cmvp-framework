@@ -63,7 +63,7 @@ define(function (require) {
             if (exception) {
                 console.error(exception);
             }
-            return jqXHR;
+            return {status: jqXHR.status, response: jqXHR.responseText};
         }
     };
 
