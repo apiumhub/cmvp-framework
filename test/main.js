@@ -13,7 +13,7 @@ for (var file in window.__karma__.files) {
 requirejs.config({
     'baseUrl': '/base/src',
     'paths': {
-        'lodash': '/base/node_modules/postal/node_modules/lodash/dist/lodash.min',
+        'lodash': '/base/node_modules/lodash/dist/lodash.min',
         'conduitjs': '/base/node_modules/postal/node_modules/conduitjs/lib/conduit.min',
         'angular-route': '/base/node_modules/angular-route/angular-route.min',
         'angular': '/base/node_modules/angular/angular.min',
