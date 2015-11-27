@@ -30,11 +30,35 @@ define(function (require) {
         expect(actual).toBe(false);
     };
 
+    function EventBusFake() {
+        this.registry = {};
+    }
+
+    EventBusFake.prototype.subscribe = function(config) {
+        var id = this._makeId(config);
+        this.registry[id] = this.registry[id] || [];
+        this.registry[id].push(config.callback);
+    };
+
+    EventBusFake.prototype.publish = function(config) {
+        var id = this._makeId(config);
+        (this.registry[id] || []).forEach(function(listener) {
+            listener(config.data);
+        });
+    };
+
+    EventBusFake.prototype._makeId = function(config) {
+        return config.channel + ':channel/FAKE_EVENT_BUS/topic:' + config.topic;
+    };
+
     return {
         createSpy: function (eventBus, method) {
             var spy = new EventBusSpy();
             eventBus[method] = spy.addActual.bind(spy);
             return spy;
+        },
+        createFake: function() {
+            return new EventBusFake;
         }
     };
 });
