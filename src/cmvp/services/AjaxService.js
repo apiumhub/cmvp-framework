@@ -47,25 +47,13 @@ define(function (require) {
         return params;
     };
 
-    AjaxService.prototype._rethrowAjaxError = function (jqXHR, exception) {
-        if (jqXHR.status === 0) {
-            throw new Error('Connection error. Verify Network.');
-        } else if (jqXHR.status == 404) {
-            throw new Error('Requested page not found. [404]');
-        } else if (jqXHR.status == 500) {
-            throw new Error('Internal Server Error [500].');
-        } else if (exception === 'parsererror') {
-            throw new Error('Requested JSON parse failed.');
-        } else if (exception === 'timeout') {
-            throw new Error('Time out error.');
-        } else if (exception === 'abort') {
-            throw new Error('Ajax request aborted.');
-        } else {
-            if (exception) {
-                console.error(exception);
-            }
-            return {status: jqXHR.status, response: jqXHR.responseText};
-        }
+    AjaxService.prototype._rethrowAjaxError = function (jqXHR, textStatus, errorThrown) {
+        throw new Error({
+            status: jqXHR.status,
+            responseText: jqXHR.responseText,
+            textStatus: textStatus,
+            errorThrown: errorThrown
+        });
     };
 
     AjaxService.newInstance = function (di) {
