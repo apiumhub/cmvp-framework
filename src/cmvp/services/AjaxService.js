@@ -48,12 +48,12 @@ define(function (require) {
     };
 
     AjaxService.prototype._rethrowAjaxError = function (jqXHR, textStatus, errorThrown) {
-        throw new Error({
+        throw {
             status: jqXHR.status,
             responseText: jqXHR.responseText,
             textStatus: textStatus,
             errorThrown: errorThrown
-        });
+        };
     };
 
     AjaxService.newInstance = function (di) {
