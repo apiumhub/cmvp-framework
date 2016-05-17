@@ -8,7 +8,6 @@ define(function (require) {
     }
 
     <|= cmvpName |>.newInstance = function (di) {
-        di = di || {};
         di.Q = di.Q || Q;
         return new <|= cmvpName |>(di);
     };

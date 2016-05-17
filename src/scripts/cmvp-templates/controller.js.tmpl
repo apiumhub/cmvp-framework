@@ -3,7 +3,10 @@ define(function (require) {
     var BaseController = require('cmvp/controllers/BaseController');
 	var View = require('<|= cmvpPath |>View');
 	function <|= cmvpName |>Controller($scope) {
-		BaseController.constructor(this, {$scope: $scope}, View);
+		BaseController.constructor(this, {
+		    $scope: $scope
+		}, View);
 	}
+	<|= cmvpName |>Controller.$inject = ['$scope'];
     return <|= cmvpName |>Controller;
 });

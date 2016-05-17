@@ -22,19 +22,10 @@ define(function (require) {
     <|= cmvpName |>View.prototype.showError = BaseView.methods.showError;
 
     <|= cmvpName |>View.prototype.initData = function (dto) {
-        this.fn.hideDetails();
         this.data.dto = dto;
     };
 
-    <|= cmvpName |>View.prototype._initFn = function () {
-        var data = this.data;
-        this.fn.showDetails = function () {
-            data.detailsVisible = true;
-        };
-        this.fn.hideDetails = function () {
-            data.detailsVisible = false;
-        };
-    };
+    <|= cmvpName |>View.prototype._initFn = function () {};
 
     return <|= cmvpName |>View;
 });
