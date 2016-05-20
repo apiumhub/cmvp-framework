@@ -42,7 +42,12 @@
         var require    = this.di.jsScope.require;
         var components = this.di.components;
 
-        require(components, this._run.bind(this));
+        return new Promise(function(resolve, reject) {
+            require(components, function() {
+                this._run();
+                resolve();
+            }.bind(this));
+        }.bind(this));
     };
 
     App.prototype._run = function() {
