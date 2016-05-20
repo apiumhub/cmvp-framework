@@ -51,9 +51,11 @@
         var components     = this.di.components;
         var angularConfig  = this.di.angularConfig;
         var angularModules = this.di.angularModules;
+        var angularRun     = this.di.run;
 
         var angularApp = angular.module('AngularApp', angularModules);
         angularApp.config(angularConfig);
+        if (angularRun) angularApp.run(angularRun);
         components.forEach(this._setupComponent.bind(this, angularApp));
         angular.bootstrap(dom, ['AngularApp']);
     };
@@ -77,7 +79,7 @@
     };
 
     App.prototype._getComponentType = function(nameComponent) {
-        return ['directive', 'factory', 'filter', 'config', 'run', 'controller']
+        return ['directive', 'controller']
             .filter(function(type) {
                 return nameComponent.substr(-type.length).toLowerCase() === type;
             })
