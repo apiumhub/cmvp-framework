@@ -84,6 +84,10 @@
             [0];
     };
 
+    App.prototype.getAngularApp = function() {
+        return this.angularApp;
+    };
+
     jsScope.ApplicationFactory = App;
 
 })(window);
