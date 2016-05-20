@@ -77,7 +77,7 @@
     };
 
     App.prototype._getComponentType = function(nameComponent) {
-        return ['directive', 'controller']
+        return ['directive', 'factory', 'filter', 'config', 'run', 'controller']
             .filter(function(type) {
                 return nameComponent.substr(-type.length).toLowerCase() === type;
             })
