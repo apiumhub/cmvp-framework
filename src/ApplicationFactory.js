@@ -26,8 +26,6 @@
 
 ;(function (jsScope) {
 
-    var Q = jsScope.require('Q');
-
     function App(di) {
         this.di = di;
     }
@@ -37,7 +35,6 @@
         di.jsScope = di.jsScope || jsScope;
         di.dom = di.dom || jsScope.document;
         di.angularModules = di.angularModules || ['ngRoute'];
-        di.Q = di.Q || Q;
         return new App(di);
     };
 
@@ -45,12 +42,7 @@
         var require    = this.di.jsScope.require;
         var components = this.di.components;
 
-        return this.di.Q(function(resolve, reject) {
-            require(components, function() {
-                this._run();
-                resolve();
-            }.bind(this));
-        }.bind(this));
+        require(components, this._run.bind(this));
     };
 
     App.prototype._run = function() {
