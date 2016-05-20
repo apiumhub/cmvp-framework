@@ -52,9 +52,9 @@
         var angularConfig  = this.di.angularConfig;
         var angularModules = this.di.angularModules;
 
-        var angularApp = angular.module('AngularApp', angularModules);
-        angularApp.config(angularConfig);
-        components.forEach(this._setupComponent.bind(this, angularApp));
+        this.angularApp = angular.module('AngularApp', angularModules);
+        this.angularApp.config(angularConfig);
+        components.forEach(this._setupComponent.bind(this, this.angularApp));
         angular.bootstrap(dom, ['AngularApp']);
     };
 
