@@ -39,15 +39,7 @@
     };
 
     App.prototype.initialize = function() {
-        var require    = this.di.jsScope.require;
-        var components = this.di.components;
-
-        return this.di.Q(function(resolve, reject) {
-            require(components, function() {
-                this._run();
-                resolve();
-            }.bind(this));
-        }.bind(this));
+        this._run();
     };
 
     App.prototype._run = function() {
@@ -57,9 +49,9 @@
         var angularConfig  = this.di.angularConfig;
         var angularModules = this.di.angularModules;
 
-        var angularApp = angular.module('AngularApp', angularModules);
-        angularApp.config(angularConfig);
-        components.forEach(this._setupComponent.bind(this, angularApp));
+        this.angularApp = angular.module('AngularApp', angularModules);
+        this.angularApp.config(angularConfig);
+        components.forEach(this._setupComponent.bind(this, this.angularApp));
         angular.bootstrap(dom, ['AngularApp']);
     };
 
