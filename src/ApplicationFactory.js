@@ -51,7 +51,7 @@
         var components     = this.di.components;
         var angularConfig  = this.di.angularConfig;
         var angularModules = this.di.angularModules;
-        var angularRun     = this.di.run;
+        var angularRun     = this.di.angularRun;
 
         var angularApp = angular.module('AngularApp', angularModules);
         angularApp.config(angularConfig);
