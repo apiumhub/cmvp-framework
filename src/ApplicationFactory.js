@@ -52,9 +52,9 @@
         var angularConfig  = this.di.angularConfig;
         var angularModules = this.di.angularModules;
 
-        this.angularApp = angular.module('AngularApp', angularModules);
-        this.angularApp.config(angularConfig);
-        components.forEach(this._setupComponent.bind(this, this.angularApp));
+        var angularApp = angular.module('AngularApp', angularModules);
+        angularApp.config(angularConfig);
+        components.forEach(this._setupComponent.bind(this, angularApp));
         angular.bootstrap(dom, ['AngularApp']);
     };
 
@@ -82,10 +82,6 @@
                 return nameComponent.substr(-type.length).toLowerCase() === type;
             })
             [0];
-    };
-
-    App.prototype.getAngularApp = function() {
-        return this.angularApp;
     };
 
     jsScope.ApplicationFactory = App;
