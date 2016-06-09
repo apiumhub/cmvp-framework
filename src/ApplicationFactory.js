@@ -49,15 +49,22 @@
         var angular        = this.di.jsScope.angular;
         var dom            = this.di.dom;
         var components     = this.di.components;
-        var angularConfig  = this.di.angularConfig;
         var angularModules = this.di.angularModules;
-        var angularRun     = this.di.angularRun;
 
         var angularApp = angular.module('AngularApp', angularModules);
-        angularApp.config(angularConfig);
-        if (angularRun) angularApp.run(angularRun);
+        this._setupModules(angularApp);
         components.forEach(this._setupComponent.bind(this, angularApp));
         angular.bootstrap(dom, ['AngularApp']);
+    };
+
+    App.prototype._setupModules = function(angularApp) {
+        var angularRun     = this.di.angularRun;
+        var angularConstant     = this.di.angularConstant;
+        var angularConfig  = this.di.angularConfig;
+
+        if (angularConfig) angularApp.config(angularConfig);
+        if (angularRun) angularApp.run(angularRun);
+        if (angularConstant) angularApp.constant(angularConstant);
     };
 
     App.prototype._setupComponent = function(angularApp, path) {
@@ -79,7 +86,7 @@
     };
 
     App.prototype._getComponentType = function(nameComponent) {
-        return ['directive', 'controller']
+        return ['constant', 'directive', 'controller']
             .filter(function(type) {
                 return nameComponent.substr(-type.length).toLowerCase() === type;
             })
