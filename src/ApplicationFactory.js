@@ -59,12 +59,10 @@
 
     App.prototype._setupModules = function(angularApp) {
         var angularRun     = this.di.angularRun;
-        var angularConstant     = this.di.angularConstant;
         var angularConfig  = this.di.angularConfig;
 
         if (angularConfig) angularApp.config(angularConfig);
         if (angularRun) angularApp.run(angularRun);
-        if (angularConstant) angularApp.constant(angularConstant);
     };
 
     App.prototype._setupComponent = function(angularApp, path) {
