@@ -56,14 +56,10 @@ define(function (require) {
         };
     };
 
-    AjaxService.prototype.setup = function(setupData) {
-        this.di.$.ajaxSetup(setupData);
-    };
-
     AjaxService.newInstance = function (di) {
         di = di || {};
         di.Q = di.Q || Q;
-        di.$ = di.$ || $;
+        di.$ = di.$ || window.$;
         return new AjaxService(di);
     };
 
