@@ -3,7 +3,6 @@
  */
 define(function (require) {
     var Q = require('q');
-    var $ = require('jquery');
 
     function AjaxService (di) {
         this.di = di;
