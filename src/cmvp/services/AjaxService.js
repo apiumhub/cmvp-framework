@@ -33,12 +33,12 @@ define(function (require) {
 
     AjaxService.prototype._prepareParams = function (method, path, data, options) {
         var params = options || {};
-        options = options || {};
+        options = options || this.di.options || {};
         params.dataType = options.dataType || "json";
         params.contentType = options.contentType || "application/json";
         params.url = path;
         params.type = method;
-        params.cache = options.cache || false;
+        params.cache = options.cache || true;
 
         if (data) {
             params.data = (typeof data == 'string' || data instanceof String) ? data : JSON.stringify(data);
