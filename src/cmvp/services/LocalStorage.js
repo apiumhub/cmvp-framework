@@ -17,7 +17,6 @@ define(function (require) {
         try {
             value = JSON.parse(json);
         } catch (e) { // it does not require to be a JSON, never assume that we are the owners of the localStorage
-            console.error(e);
             value = json;
         }
         return value;
@@ -27,7 +26,6 @@ define(function (require) {
         try {
             window.localStorage[namespace + key] = JSON.stringify(value);
         } catch (e) {
-            console.error(e);
             window.localStorage[namespace + key] = value;
         }
     };

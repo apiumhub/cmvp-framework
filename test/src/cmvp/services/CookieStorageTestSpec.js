@@ -17,7 +17,7 @@ define (function (require) {
                     {key: 'dummyKey', value: 3, expected: 'dummyKey=3'},
                     {key: 'dummyKey', value: [1,2,3], expected: 'dummyKey=[1,2,3]'},
                     {key: 'dummyKey', value: true, expected: 'dummyKey=true'},
-                    {key: 'dummyKey', value: {json:{a: 3}}, expected: 'dummyKey="{\\"json\\":{\\"a\\":3}}"'}
+                    {key: 'dummyKey', value: {json:{a: 3}}, expected: 'dummyKey={"json":{"a":3}}'}
                 ];
                 cookieKVProvider.forEach(function (provider, i) {
                     it('should save to cookie.' + i, function () {
