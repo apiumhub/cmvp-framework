@@ -1,14 +1,15 @@
 define(function (require) {
-    'use strict';
-    var BaseController = require('cmvp/controllers/BaseController');
+	'use strict';
+	var BaseController = require('cmvp/controllers/BaseController');
 	var View = require('<|= cmvpPath |>View');
 
-	function <|= cmvpName |>Controller($scope) {
+	function <|= cmvpName |>Controller($scope, $rootScope) {
 		BaseController.constructor(this, {
-		    $scope: $scope
+			$scope: $scope,
+			$rootScope: $rootScope
 		}, View);
 	}
 
-	<|= cmvpName |>Controller.$inject = ['$scope'];
-    return <|= cmvpName |>Controller;
+	<|= cmvpName |>Controller.$inject = ['$scope', '$rootScope'];
+	return <|= cmvpName |>Controller;
 });
