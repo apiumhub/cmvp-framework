@@ -8,7 +8,7 @@ define(function (require) {
         this.subscriptions = {};
     }
 
-    EventBus.prototype.subscribe = function (parameters, id) {
+    EventBus.prototype.subscribe = function (parameters, id, broadcast) {
         var postalSubscription = postal.subscribe(parameters);
         var newSubscription = {
             unsubscribe: postalSubscription.unsubscribe.bind(postalSubscription),
@@ -16,6 +16,9 @@ define(function (require) {
             topic: parameters.topic
         };
         if (id !== undefined) {
+            if (broadcast === true) {
+                id = id + Object.keys(this.subscriptions).length
+            }
             var path = [parameters.channel, parameters.topic, id].reduce(function (a, b) { return a + '/' + b });
             if (this.subscriptions.hasOwnProperty(path)) {
                 var subscription = this.subscriptions[path];
